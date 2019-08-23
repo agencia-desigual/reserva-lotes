@@ -1,0 +1,21 @@
+
+ /*
+  =====================================
+               LISIA
+  =====================================
+ */
+  @font-face
+  {
+      font-family: "Lisia";
+      font-weight: normal;
+      src: url("fontes/regular.otf");
+  }
+
+
+  /* bold */
+  @font-face
+  {
+      font-family: "Lisia";
+      font-weight: bold;
+      src: url("fontes/semibold.otf");
+  }

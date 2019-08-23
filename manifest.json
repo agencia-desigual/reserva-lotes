@@ -1,0 +1,117 @@
+{
+  "dir": "ltr",
+  "lang": "Portuguese",
+  "name": "GreenPark",
+  "scope": "/login",
+  "display": "fullscreen",
+  "start_url": "https://sistema.greenparkaracatuba.com.br/login",
+  "short_name": "GreenPark ",
+  "theme_color": "#3e969c",
+  "description": "Sistema de reserva de loteamentos.",
+  "orientation": "portrait",
+  "background_color": "#3e969c",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/images/arquivos/assets/img/brand/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/images/d81352ba-e12a-b2c9-053f-a498b6b084f2.webPlatform.png",
+      "sizes": "44x44",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/77a05e74-6ce1-d899-6462-204fcb91c916.webPlatform.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/8fdfd166-9333-7f2f-57db-dd53a2cb29c0.webPlatform.png",
+      "sizes": "1240x600",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/aebd038e-4b8e-43eb-03aa-8242dca3fbf9.webPlatform.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/a468db3f-ed08-4fe5-2f73-db413df57ee6.webPlatform.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/3241e475-081a-d387-8dad-d7cfc23cd820.webPlatform.png",
+      "sizes": "88x88",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/579a7cb6-ac62-cf1e-0a6c-86ca9c7e89ce.webPlatform.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/f17bbcfd-be1c-087c-f22a-371a73ea92c2.webPlatform.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/55de1890-21cc-8018-faa2-7e24a319eccc.webPlatform.png",
+      "sizes": "620x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/1f8b1f69-b2f4-b84f-cf60-3b2121c2c11d.webPlatform.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/5abe2a4f-01e6-d174-0d7d-5fa26a2ca381.webPlatform.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/0fe8c7c2-8af8-905d-ffa5-690df065cf56.webPlatform.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/6aecdc4d-7e74-3d13-c18b-2aa98ae59992.webPlatform.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/0a5e85fa-6591-e6e0-f2de-587b2c626f49.webPlatform.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/7eae69f9-20e3-17c2-4dfc-a0e7cf247593.webPlatform.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/c259b610-f8b0-18d3-7eca-ff892bb016a7.webPlatform.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/2ac78528-30b9-14de-d6a2-df81c0e25bc3.webPlatform.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/fedb5064-78d8-c17b-f0d7-866d06961bb3.webPlatform.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/83ea6b40-e5c6-4566-0b7d-19f309c8b7f1.webPlatform.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    }
+  ]
+}
