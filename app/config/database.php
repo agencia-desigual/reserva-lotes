@@ -2,7 +2,7 @@
 
 $database = [
     'hostname' => 'localhost',
-	'username' => 'greenpar_site',
-	'password' => 'suporte123',
+	'username' => '',
+	'password' => '',
 	'database' => 'greenpar_site'
 ];
