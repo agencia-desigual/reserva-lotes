@@ -136,7 +136,7 @@ class Principal extends CI_controller
                 "lotes" => $lotes,
                 "usuario" => $usuario,
                 "quadra" => $id,
-                "corretores" => $this->ObjModelUsuario->get()->fetchAll(\PDO::FETCH_OBJ),
+                "corretores" => $this->ObjModelUsuario->get(["status" => true])->fetchAll(\PDO::FETCH_OBJ),
                 "imagem" => BASE_STORANGE . "assets/img/map/bloco-" . $id . ".png"
             ];
 
