@@ -64,7 +64,7 @@ else
                                     <td>#<?= $negociacoes->Id_negociacao; ?></td>
                                     <td><?= $negociacoes->lote->bloco; ?>-<?= $negociacoes->lote->numeroLote; ?></td>
 
-                                    <td><?= $negociacoes->cliente->nome; ?></td>
+                                    <td><?= (isset($negociacoes->cliente->nome) == true) ? $negociacoes->cliente->nome : "Cliente não Informado"; ?></td>
                                     <td><?= $negociacoes->corretor->nome; ?></td>
 
                                     <?php if($negociacoes->status == "reservado"): ?>

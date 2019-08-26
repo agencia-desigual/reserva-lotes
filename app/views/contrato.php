@@ -121,7 +121,13 @@
                         <td>
                             <p>
                                 Entrada de R$<?= number_format($negociacao->valorEntrada,2,",","."); ?> <br>
-                                Vencimento <?= date("d/m/Y",strtotime($negociacao->vencimentoEntrada)); ?>
+                                Vencimento <?= date("d/m/Y",strtotime($negociacao->vencimentoEntrada)); ?><br><br>
+
+                                Quantidade de Parcelas <?= $negociacao->numEntrada; ?><br>
+                                Valor Parcela R$<?= number_format(($negociacao->valorEntrada / $negociacao->numEntrada),2,",","."); ?> <br><br>
+
+                                A Presente Promessa de Compra e Venda só terá validade após a aprovação documental por parte da empresa Pau-Brasil Empreend. Imob. Ltda.,
+                                bem como da quitação do boleto bancário referente a parcela mencionada.
                             </p>
                         </td>
                     </tr>
@@ -130,7 +136,14 @@
                         <td>
                             <?php if($negociacao->numParcela > 0): ?>
                             <p>
-                                Quantidade de Parcelas <?= $negociacao->numParcela; ?>. Valor Parcela R$<?= number_format($negociacao->valorParcela,2,",","."); ?> <br>
+                                Quantidade de Parcelas <?= $negociacao->numParcela; ?>.
+
+                                <?php if($negociacao->juros == true): ?>
+                                    Valor Parcela R$<?= number_format($negociacao->valorParcela,2,",","."); ?> <br>
+                                <?php else: ?>
+                                    Valor Parcela R$<?= number_format((($lote->valor - $negociacao->valorEntrada) / $negociacao->numParcela),2,",","."); ?> <br>
+                                <?php endif; ?>
+
                                 Vencimento <?= date("d/m/Y",strtotime($negociacao->vencimentoParcela)); ?>
                             </p>
                             <?php else: ?>
@@ -141,7 +154,11 @@
 
                     <tr>
                         <td><p>Taxa Juros Nominal</p></td>
-                        <td><p>0,5 ao mês</p></td>
+                        <?php if($negociacao->juros == true): ?>
+                            <td><p>0,5 ao mês</p></td>
+                        <?php else: ?>
+                            <td><p>0 ao mês</p></td>
+                        <?php endif; ?>
                     </tr>
 
                     <tr>

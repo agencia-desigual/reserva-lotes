@@ -72,38 +72,87 @@
                         <!-- Vendedor -->
                         <div class="col-2">
                             <div class="p-l-20">
-                                <label>Vencimento Entrada</label>
-                                <input type="date" id="input_vencimentoEntrada" name="vencimentoEntrada" min="<?= date("Y-m-d"); ?>" />
+                                <label>Numero de Parcelas</label>
+                                <select name="numEntrada">
+                                    <option value="1" selected>Á vista</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
+                        <!-- Vendedor -->
+                        <div class="col-2">
+                            <div class="p-r-20">
+                                <label>Vencimento Entrada</label>
+                                <input type="date" id="input_vencimentoEntrada" name="vencimentoEntrada" min="<?= date("Y-m-d"); ?>" />
+                            </div>
+                        </div>
+
                         <!-- Valor do Lote -->
-                        <div class="col-1">
-                            <label>Valor a ser financiado</label>
-                            <p id="txt_valorFinanciado">R$0,00</p>
+                        <div class="col-2">
+                            <div class="p-l-20">
+                                <label>Valor a ser financiado</label>
+                                <p id="txt_valorFinanciado">R$0,00</p>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <!-- Valor do Lote -->
-                        <div class="col-1">
-                            <label>Quantidade de Parcelas</label>
-                            <select name="parcelas" id="input_parcelas" onchange="selecionaNumParcelas(this.value)">
-                                <option value="0" selected>Pagamento á vista</option>
-                                <option value="12">12 Messes</option>
-                                <option value="24">24 Messes</option>
-                                <option value="36">36 Messes</option>
-                                <option value="48">48 Messes</option>
-                                <option value="60">60 Messes</option>
-                                <option value="72">72 Messes</option>
-                                <option value="84">84 Messes</option>
-                                <option value="96">96 Messes</option>
-                                <option value="108">108 Messes</option>
-                                <option value="120">120 Messes</option>
-                            </select>
-                        </div>
+                        <?php if($_SESSION["usuario"]->nivel == "user"): ?>
+
+                            <!-- Valor do Lote -->
+                            <div class="col-1">
+                                <label>Quantidade de Parcelas</label>
+                                <select name="parcelas" id="input_parcelas" onchange="selecionaNumParcelas(this.value)">
+                                    <option value="0" selected>Pagamento á vista</option>
+                                    <option value="12">12 Messes</option>
+                                    <option value="24">24 Messes</option>
+                                    <option value="36">36 Messes</option>
+                                    <option value="48">48 Messes</option>
+                                    <option value="60">60 Messes</option>
+                                    <option value="72">72 Messes</option>
+                                    <option value="84">84 Messes</option>
+                                    <option value="96">96 Messes</option>
+                                    <option value="108">108 Messes</option>
+                                    <option value="120">120 Messes</option>
+                                </select>
+                            </div>
+
+                            <input name="juros" type="hidden" value="1" />
+                        <?php else: ?>
+                            <!-- Valor do Lote -->
+                            <div class="col-2">
+                                <div class="p-r-20">
+                                    <label>Quantidade de Parcelas</label>
+                                    <select name="parcelas" id="input_parcelas" onchange="selecionaNumParcelas(this.value)">
+                                        <option value="0" selected>Pagamento á vista</option>
+                                        <option value="12">12 Messes</option>
+                                        <option value="24">24 Messes</option>
+                                        <option value="36">36 Messes</option>
+                                        <option value="48">48 Messes</option>
+                                        <option value="60">60 Messes</option>
+                                        <option value="72">72 Messes</option>
+                                        <option value="84">84 Messes</option>
+                                        <option value="96">96 Messes</option>
+                                        <option value="108">108 Messes</option>
+                                        <option value="120">120 Messes</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="p-l-20">
+                                    <label>Juros</label>
+                                    <select name="juros" id="input_juros" onchange="alteraJuros(this.value)">
+                                        <option value="1" selected>Cobrar Juros</option>
+                                        <option value="0">Não cobrar Juros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <div class="row">

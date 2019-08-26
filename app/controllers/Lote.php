@@ -218,9 +218,11 @@ class Lote extends CI_Controller
                 "Id_valorFinanciamento" => ($post["Id_valorFinanciamento"] == 0) ? null : $post["Id_valorFinanciamento"],
                 "valorEntrada" => $post["valorEntrada"],
                 "numParcela" => $post["numParcela"],
+                "numEntrada" => $post["numEntrada"],
                 "vencimentoParcela" => $post["vencimentoParcela"],
                 "vencimentoEntrada" => $post["vencimentoEntrada"],
-                "status" => $post["status"]
+                "status" => $post["status"],
+                "juros" => $post["juros"]
             ];
 
             // salva

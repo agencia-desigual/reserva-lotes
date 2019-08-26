@@ -77,7 +77,7 @@ class Imprimir extends CI_Controller
         if($tipo == "entrada")
         {
             $data_venc = date("d/m/Y", strtotime($negociacao->vencimentoEntrada));  // Prazo de X dias OU informe data: "13/04/2006";
-            $valor_cobrado = $negociacao->valorEntrada; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+            $valor_cobrado = ($negociacao->valorEntrada / $negociacao->numEntrada); // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
             $valor_cobrado = str_replace(",", ".",$valor_cobrado);
             $valor_boleto = number_format($valor_cobrado + $taxa_boleto, 2, ',', '');
 
@@ -88,7 +88,14 @@ class Imprimir extends CI_Controller
             // Busca o Financiamento
             $fin = $this->ObjModelFinanciamento->get(["Id_valorFinanciamento" => $negociacao->Id_valorFinanciamento])->fetch(\PDO::FETCH_ASSOC);
 
-            $valor = $fin["parcela_" . $negociacao->numParcela];
+            if($negociacao->juros == true)
+            {
+                $valor = $fin["parcela_" . $negociacao->numParcela];
+            }
+            else
+            {
+                $valor = $fin["valor"] / $negociacao->numParcela;
+            }
 
 
             $data_venc = date("d/m/Y", strtotime($negociacao->vencimentoParcela));  // Prazo de X dias OU informe data: "13/04/2006";

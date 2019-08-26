@@ -261,6 +261,8 @@ class Database
                     }
 
                     $query->execute();
+
+                    return $query;
                 }
                 catch (\PDOException $e)
                 {

@@ -558,6 +558,35 @@ function venderLote()
 
 
 
+function alteraJuros(tipo)
+{
+    if(tipo == "0")
+    {
+        var numPar = $("#input_parcelas").val();
+        var valor = Dados.financiamento.valor;
+
+        // Int
+        valor = parseInt(valor);
+        numPar = parseInt(numPar);
+
+        // Faz o calculo
+        var total = valor / numPar;
+
+        // Exibe
+        $("#txt_valorParcela").html(formatMoney(total, 2,"R$",".",","));
+    }
+    else
+    {
+        // Numero de parcelas
+        var numPar = $("#input_parcelas").val();
+
+        // Manda calculas
+        selecionaNumParcelas(numPar);
+    }
+}
+
+
+
 /**
  *  ---------------------------------
  *         Envio de Formulários
@@ -584,9 +613,11 @@ $("#form_etapa1").on("submit",function () {
         "valorEntrada": Dados.valorEntrada,
         "vencimentoEntrada": form.get("vencimentoEntrada"),
         "numParcela": form.get("parcelas"),
+        "numEntrada": form.get("numEntrada"),
         "vencimentoParcela": form.get("vencimentoParcela"),
         "status": "reservado",
-        "Id_valorFinanciamento": 0
+        "Id_valorFinanciamento": 0,
+        "juros": form.get("juros")
     }
 
     // Verifica se possui
