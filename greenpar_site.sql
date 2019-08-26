@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: 26-Ago-2019 às 13:46
--- Versão do servidor: 5.6.41-84.1
--- versão do PHP: 7.2.7
+-- Host: 127.0.0.1
+-- Generation Time: 26-Ago-2019 às 23:15
+-- Versão do servidor: 10.1.38-MariaDB
+-- versão do PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `greenpar_site`
+-- Database: `greenpark`
 --
 
 -- --------------------------------------------------------
@@ -294,7 +294,7 @@ INSERT INTO `lote` (`Id_lote`, `quadra`, `bloco`, `metragem`, `numeroLote`, `val
 (149, '1', 'L', '346,38', 4, 260000, 'livre', '1545,1965', '215,105', '0deg'),
 (150, '1', 'L', '350,36', 5, 260000, 'livre', '1429,1908', '260,105', '0deg'),
 (151, '1', 'L', '360,00', 6, 260000, 'livre', '1323,1908', '260,105', '0deg'),
-(152, '1', 'L', '360,00', 7, 260000, 'livre', '1214,1908', '260,105', '0deg'),
+(152, '1', 'L', '360,00', 7, 260000, 'reservado', '1214,1908', '260,105', '0deg'),
 (153, '1', 'L', '360,00', 8, 260000, 'livre', '1108,1908', '260,105', '0deg'),
 (154, '1', 'L', '360,00', 9, 260000, 'livre', '1000,1908', '260,105', '0deg'),
 (155, '1', 'L', '360,00', 10, 260000, 'livre', '893,1908', '260,105', '0deg'),
@@ -391,38 +391,41 @@ CREATE TABLE `negociacao` (
   `valorEntrada` int(15) NOT NULL,
   `vencimentoEntrada` date NOT NULL,
   `numParcela` int(15) NOT NULL,
+  `numEntrada` int(10) NOT NULL DEFAULT '1',
   `vencimentoParcela` date NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'livre',
-  `dataNegociacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `dataNegociacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `juros` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `negociacao`
 --
 
-INSERT INTO `negociacao` (`Id_negociacao`, `Id_usuario`, `Id_lote`, `Id_cliente`, `Id_valorFinanciamento`, `valorEntrada`, `vencimentoEntrada`, `numParcela`, `vencimentoParcela`, `status`, `dataNegociacao`) VALUES
-(1, 7, 37, 1, 0, 0, '0000-00-00', 0, '0000-00-00', 'vendido', '2019-08-19 16:59:40'),
-(2, 7, 38, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 17:57:47'),
-(3, 7, 48, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:00:28'),
-(4, 7, 49, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:02:08'),
-(5, 7, 50, NULL, 0, 0, '2019-08-19', 0, '2019-08-19', 'cancelado', '2019-08-19 18:03:32'),
-(6, 7, 50, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:03:59'),
-(7, 7, 54, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:08:34'),
-(8, 7, 63, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:10:07'),
-(9, 7, 64, 1, 0, 0, '2019-08-19', 0, '2019-08-19', 'vendido', '2019-08-19 18:11:23'),
-(10, 7, 36, 2, 2456, 43500, '2019-09-10', 120, '2019-10-10', 'cancelado', '2019-08-22 14:11:56'),
-(11, 7, 211, 4, 0, 330000, '2019-08-26', 0, '0000-00-00', 'vendido', '2019-08-22 14:52:07'),
-(12, 7, 146, 5, 2796, 49500, '2019-09-15', 120, '2019-12-15', 'vendido', '2019-08-22 17:51:43'),
-(13, 7, 174, 5, 2329, 41200, '2019-09-15', 120, '2019-12-15', 'vendido', '2019-08-22 18:11:44'),
-(14, 7, 149, 5, 2171, 42000, '2019-09-15', 120, '2019-12-15', 'cancelado', '2019-08-22 18:17:23'),
-(15, 7, 175, 5, 2371, 42000, '2019-09-15', 120, '2019-12-15', 'vendido', '2019-08-22 18:19:22'),
-(16, 7, 187, NULL, 0, 0, '0000-00-00', 0, '0000-00-00', 'cancelado', '2019-08-22 19:22:34'),
-(17, 7, 57, NULL, 0, 25000000, '0000-00-00', 0, '0000-00-00', 'cancelado', '2019-08-22 19:25:52'),
-(18, 7, 36, 2, 2456, 43500, '2019-08-30', 120, '2019-08-29', 'cancelado', '2019-08-23 12:23:36'),
-(19, 7, 36, 2, 0, 0, '0000-00-00', 0, '0000-00-00', 'reservado', '2019-08-24 20:06:32'),
-(20, 7, 67, 6, 1946, 34500, '2019-09-10', 120, '2019-10-20', 'cancelado', '2019-08-26 13:09:13'),
-(21, 7, 67, 6, 1946, 34500, '2019-09-10', 120, '2019-10-20', 'cancelado', '2019-08-26 13:16:27'),
-(22, 7, 22, NULL, 1691, 30000, '2019-09-10', 120, '2019-10-10', 'reservado', '2019-08-26 16:40:58');
+INSERT INTO `negociacao` (`Id_negociacao`, `Id_usuario`, `Id_lote`, `Id_cliente`, `Id_valorFinanciamento`, `valorEntrada`, `vencimentoEntrada`, `numParcela`, `numEntrada`, `vencimentoParcela`, `status`, `dataNegociacao`, `juros`) VALUES
+(1, 7, 37, 1, 0, 0, '0000-00-00', 0, 1, '0000-00-00', 'vendido', '2019-08-19 16:59:40', 1),
+(2, 7, 38, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 17:57:47', 1),
+(3, 7, 48, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:00:28', 1),
+(4, 7, 49, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:02:08', 1),
+(5, 7, 50, NULL, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'cancelado', '2019-08-19 18:03:32', 1),
+(6, 7, 50, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:03:59', 1),
+(7, 7, 54, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:08:34', 1),
+(8, 7, 63, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:10:07', 1),
+(9, 7, 64, 1, 0, 0, '2019-08-19', 0, 1, '2019-08-19', 'vendido', '2019-08-19 18:11:23', 1),
+(10, 7, 36, 2, 2456, 43500, '2019-09-10', 120, 1, '2019-10-10', 'cancelado', '2019-08-22 14:11:56', 1),
+(11, 7, 211, 4, 0, 330000, '2019-08-26', 0, 1, '0000-00-00', 'vendido', '2019-08-22 14:52:07', 1),
+(12, 7, 146, 5, 2796, 49500, '2019-09-15', 120, 1, '2019-12-15', 'vendido', '2019-08-22 17:51:43', 1),
+(13, 7, 174, 5, 2329, 41200, '2019-09-15', 120, 1, '2019-12-15', 'vendido', '2019-08-22 18:11:44', 1),
+(14, 7, 149, 5, 2171, 42000, '2019-09-15', 120, 1, '2019-12-15', 'cancelado', '2019-08-22 18:17:23', 1),
+(15, 7, 175, 5, 2371, 42000, '2019-09-15', 120, 1, '2019-12-15', 'vendido', '2019-08-22 18:19:22', 1),
+(16, 7, 187, NULL, 0, 0, '0000-00-00', 0, 1, '0000-00-00', 'cancelado', '2019-08-22 19:22:34', 1),
+(17, 7, 57, NULL, 0, 25000000, '0000-00-00', 0, 1, '0000-00-00', 'cancelado', '2019-08-22 19:25:52', 1),
+(18, 7, 36, 2, 2456, 43500, '2019-08-30', 120, 1, '2019-08-29', 'cancelado', '2019-08-23 12:23:36', 1),
+(19, 7, 36, 2, 0, 0, '0000-00-00', 0, 1, '0000-00-00', 'reservado', '2019-08-24 20:06:32', 1),
+(20, 7, 67, 6, 1946, 34500, '2019-09-10', 120, 1, '2019-10-20', 'cancelado', '2019-08-26 13:09:13', 1),
+(21, 7, 67, 6, 1946, 34500, '2019-09-10', 120, 1, '2019-10-20', 'cancelado', '2019-08-26 13:16:27', 1),
+(22, 7, 22, NULL, 1691, 30000, '2019-09-10', 120, 1, '2019-10-10', 'reservado', '2019-08-26 16:40:58', 1),
+(23, 2, 152, 2, 1991, 60000, '2019-08-29', 36, 3, '2019-09-11', 'reservado', '2019-08-26 20:25:28', 0);
 
 -- --------------------------------------------------------
 
@@ -474,7 +477,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`Id_usuario`, `Id_corretor`, `nome`, `email`, `senha`, `status`, `nivel`) VALUES
-(1, 1, 'Endrigo Almada', 'endrigo@desigual.com.br', '202cb962ac59075b964b07152d234b70', 0, 'administrador'),
+(1, 1, 'Endrigo Almada', 'endrigo@desigual.com.br', '202cb962ac59075b964b07152d234b70', 1, 'administrador'),
 (2, 1, 'Igor Desigual', 'igor@desigual.com.br', '202cb962ac59075b964b07152d234b70', 1, 'user'),
 (4, 3, 'Amir Mansour', 'mansour.amir@hotmail.com', 'da8a059aad0ea326a400e6b1ed4ad1a6', 1, 'administrador'),
 (6, 5, 'DEVAIR MUCHIUTTI', 'muchiutti.devair@gmail.com', 'c8f733582c2f5d4561c3e75ca240ec3c', 1, 'administrador'),
@@ -4592,7 +4595,7 @@ ALTER TABLE `lote`
 -- AUTO_INCREMENT for table `negociacao`
 --
 ALTER TABLE `negociacao`
-  MODIFY `Id_negociacao` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Id_negociacao` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `sitecadastro`
