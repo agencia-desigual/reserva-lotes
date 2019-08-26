@@ -25,7 +25,7 @@ class CadSite extends CI_Controller
 
 
 
-
+    
     public function ajaxBuscaCadastro($param){
 
         $this->ObjHelperSeguranca->verificaLogin();

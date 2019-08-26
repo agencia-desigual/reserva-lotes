@@ -109,8 +109,6 @@ else
     <div/>
     <div/>
 
-
-
 <?php
 
 if($usuario->nivel == "user")
@@ -123,8 +121,6 @@ else
 }
 
 ?>
-
-
 
 <script>
 

@@ -474,26 +474,28 @@
                         </form>
                     </div>
 
+
+
                     <!-- Etapa 3 -->
                     <div id="etapa3" style="display: none; width: 100%;">
                         <h4 class="text-center">Etapa Final <br> Download dos arquivos</h4>
 
                         <div class="row pt-4">
-                            <div class="col-md-4 text-center">
-                                <a href="" id="link_entrada" class="text-align-center" target="_blank">
-                                    <img src="<?= BASE_STORANGE; ?>assets/img/boleto.png" />
-                                    <p style="color:#000; padding-top: 10px;">Entrada</p>
-                                </a>
-                            </div>
+<!--                            <div class="col-md-4 text-center">-->
+<!--                                <a href="" id="link_entrada" class="text-align-center" target="_blank">-->
+<!--                                    <img src="--><?//= BASE_STORANGE; ?><!--assets/img/boleto.png" />-->
+<!--                                    <p style="color:#000; padding-top: 10px;">Entrada</p>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!---->
+<!--                            <div class="col-md-4 text-center">-->
+<!--                                <a href="" id="link_parcela" target="_blank">-->
+<!--                                    <img src="--><?//= BASE_STORANGE; ?><!--assets/img/boleto.png" />-->
+<!--                                    <p style="color:#000; padding-top: 10px;">1ª Parcela</p>-->
+<!--                                </a>-->
+<!--                            </div>-->
 
-                            <div class="col-md-4 text-center">
-                                <a href="" id="link_parcela" target="_blank">
-                                    <img src="<?= BASE_STORANGE; ?>assets/img/boleto.png" />
-                                    <p style="color:#000; padding-top: 10px;">1ª Parcela</p>
-                                </a>
-                            </div>
-
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-12 text-center">
                                 <a href="" id="link_contrato" target="_blank">
                                     <img src="<?= BASE_STORANGE; ?>assets/img/download.png" />
                                     <p style="color:#000; padding-top: 10px;">Contrato</p>
@@ -577,6 +579,7 @@
     }
 
 
+
     $("#form_etapa1_2").on("submit",function () {
 
         // Não Carrega
@@ -619,9 +622,10 @@
 
                 // Pula para a etapa 2
                 $('#' + Dados.lote_etapa).css("display","none");
-                $('#etapa2').css("display","block");
 
-                Dados.lote_etapa = 'etapa2';
+                Dados.lote_etapa = "etapa2";
+
+                $('#etapa2').css("display","block");
             }
             else
             {
@@ -684,15 +688,18 @@
 
                     // Altera os Links
                     $("#link_contrato").attr("href",BASE_URL + "imprimir/contrato/" + Dados.Id_negociacao);
-                    $("#link_entrada").attr("href",BASE_URL + "imprimir/boleto/entrada/" + Dados.Id_negociacao);
-                    $("#link_parcela").attr("href",BASE_URL + "imprimir/boleto/parcela/" + Dados.Id_negociacao);
+
+
+                    // $("#link_entrada").attr("href",BASE_URL + "imprimir/boleto/entrada/" + Dados.Id_negociacao);
+                    // $("#link_parcela").attr("href",BASE_URL + "imprimir/boleto/parcela/" + Dados.Id_negociacao);
 
                     // Altera
                     // Pula para a etapa 2
                     $('#' + Dados.lote_etapa).css("display","none");
-                    $('#etapa3').css("display","block");
 
-                    Dados.lote_etapa = 'etapa3';
+                    Dados.lote_etapa = "etapa3";
+
+                    $('#etapa3').css("display","block");
                 }
                 else
                 {

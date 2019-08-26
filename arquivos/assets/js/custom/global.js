@@ -1,17 +1,16 @@
-var BASE_URL = "http://192.168.0.185/Desigual/greenpark/sistema/";
-// var BASE_URL = "http://sistema.greenparkaracatuba.com.br/";
+var BASE_URL = "http://localhost/Desigual/reserva-lotes/";
+// var BASE_URL = "https://sistema.greenparkaracatuba.com.br/";
 
 
 // Mascaras
-$(".maskValor").mask("#.##0", {reverse: true});
 $(".maskValorVigula").mask("#.##0,00", {reverse: true});
+$(".maskValor").mask("#.##0", {reverse: true});
 $(".maskCPF").mask("999.999.999-99");
 $(".maskCNPJ").mask("99.999.999/9999-99");
 $(".maskCEP").mask("99999-999");
 $(".maskTel").mask("(99) 9999-9999");
 $(".maskCel").mask("(99) 99999-9999");
 $(".maskData").mask("99/99/9999");
-
 
 // Class responsável por lidar com
 // as configurações de sessão

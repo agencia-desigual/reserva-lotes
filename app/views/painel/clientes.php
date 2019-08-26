@@ -1067,7 +1067,6 @@
                 $("#link_rg_editar").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_rg);
                 $("#link_residencia_editar").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_residencia);
 
-
                 // Verifica se é casado
                 if(esposa != null && esposa != "" && esposa != undefined)
                 {

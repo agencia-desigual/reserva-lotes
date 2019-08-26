@@ -641,11 +641,12 @@ $("#form_etapa2").on("submit", function () {
     $("#btn_etapa2").html("Processando...");
     $("#btn_etapa2").attr("disabled",true);
 
+    // Pega o formulário
+    var form = new FormData(this);
+
     var session = new Session();
     var user = session.get("usuario");
 
-    // Pega o formulário
-    var form = new FormData(this);
 
     if(Dados.cliente != "")
     {
@@ -686,6 +687,7 @@ $("#form_etapa2").on("submit", function () {
                     $("#link_entrada").css("display","none");
                     $("#link_parcela").css("display","none");
                 }
+
 
                 // Altera
                 alteraEtapa("etapa3");

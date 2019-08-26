@@ -208,8 +208,6 @@ class Controller
     } // END >> Fun::uploadFile()
 
 
-
-
     // Método responsável por formatar um numero na casa do milhar, deixando
     // as siglas na frente: K,M,B,T,Q
     public function formatNumero($numero = null)

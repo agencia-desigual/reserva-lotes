@@ -128,10 +128,14 @@
                     <tr>
                         <td><p>Forma Pagamento</p></td>
                         <td>
+                            <?php if($negociacao->numParcela > 0): ?>
                             <p>
                                 Quantidade de Parcelas <?= $negociacao->numParcela; ?>. Valor Parcela R$<?= number_format($negociacao->valorParcela,2,",","."); ?> <br>
                                 Vencimento <?= date("d/m/Y",strtotime($negociacao->vencimentoParcela)); ?>
                             </p>
+                            <?php else: ?>
+                            <p>Pagamento á vista.</p>
+                            <?php endif; ?>
                         </td>
                     </tr>
 

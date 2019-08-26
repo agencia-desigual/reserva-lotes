@@ -16,7 +16,6 @@
     <!-- Argon CSS -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>arquivos/plugins/datatables/css/css.css" />
     <link rel="stylesheet" href="<?= BASE_URL; ?>arquivos/plugins/selectize/css/selectize.default.css" />
-    <link rel="stylesheet" type="text/css" href="<?= BASE_STORANGE; ?>plugins/dropify/css/dropify.css" />
     <link type="text/css" href="<?= BASE_URL; ?>arquivos/assets/css/argon.css?v=1.0.0" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>
