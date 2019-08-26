@@ -308,10 +308,11 @@ class Database
                         $valores .= ",";
                     }
 
+
                     $colunas .= "{$item}";
                     $valores .= "?";
 
-                    $aux[] .= $valor;
+                    $aux[":" . $item] = $valor;
                 }
 
                 $sql .= "({$colunas}) VALUES ({$valores})";
