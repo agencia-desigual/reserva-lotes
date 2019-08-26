@@ -312,19 +312,14 @@ class Database
                     $colunas .= "{$item}";
                     $valores .= "?";
 
-                    $aux[":" . $item] = $valor;
+                    $aux[] .= $valor;
                 }
 
                 $sql .= "({$colunas}) VALUES ({$valores})";
 
                 $query = $this->db->prepare($sql);
+                $query->execute($aux);
 
-                foreach ($aux as $item => $value)
-                {
-                    $query->bindValue($item,$value);
-                }
-
-                $query->execute();
 
                 if($query != null && $query != false)
                 {
