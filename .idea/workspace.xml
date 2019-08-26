@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="7f6ac533-6f41-48c7-8a50-61620254a23e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.php" afterDir="false" />
+=======
+    <list default="true" id="863a90f2-8c5e-4063-9f39-d89dab76ef5e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/controllers/Usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Usuario.php" afterDir="false" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,10 +18,17 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/app/config/database.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="84">
               <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+=======
+        <entry file="file://$PROJECT_DIR$/app/controllers/Usuario.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="688">
+              <caret line="81" column="100" selection-start-line="81" selection-start-column="100" selection-end-line="81" selection-end-column="100" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
             </state>
           </provider>
         </entry>
@@ -29,6 +41,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
@@ -40,21 +53,33 @@
         <option value="$PROJECT_DIR$/.idea/misc.xml" />
         <option value="$PROJECT_DIR$/.idea/modules.xml" />
         <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+=======
+        <option value="$PROJECT_DIR$/app/controllers/Usuario.php" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+<<<<<<< HEAD
     <option name="x" value="496" />
     <option name="y" value="145" />
     <option name="width" value="975" />
     <option name="height" value="1018" />
+=======
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="Scope" />
+=======
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -71,17 +96,30 @@
               <item name="reserva-lotes" type="b2602c69:ProjectViewProjectNode" />
               <item name="reserva-lotes" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="config" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
             </path>
             <path>
               <item name="reserva-lotes" type="b2602c69:ProjectViewProjectNode" />
               <item name="reserva-lotes" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="arquivos" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -107,16 +145,26 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <changelist id="7f6ac533-6f41-48c7-8a50-61620254a23e" name="Default Changelist" comment="" />
       <created>1566843969823</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1566843969823</updated>
       <workItem from="1566843971512" duration="43000" />
+=======
+      <changelist id="863a90f2-8c5e-4063-9f39-d89dab76ef5e" name="Default Changelist" comment="" />
+      <created>1566844059659</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566844059659</updated>
+      <workItem from="1566844060862" duration="186000" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="43000" />
   </component>
   <component name="ToolWindowManager">
@@ -125,6 +173,16 @@
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966443" />
+=======
+    <option name="totallyTimeSpent" value="186000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14818764" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -148,10 +206,17 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/controllers/Usuario.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="688">
+          <caret line="81" column="100" selection-start-line="81" selection-start-column="100" selection-end-line="81" selection-end-column="100" />
+>>>>>>> 1b110956a25ad7a45b8261ec8067593b8d52c420
         </state>
       </provider>
     </entry>

@@ -63,14 +63,27 @@ class Usuario extends CI_Controller
             // Fetch
             $usuario = $usuario->fetch(\PDO::FETCH_OBJ);
 
-            // Salva a session
-            $_SESSION["usuario"] = $usuario;
+            // Verifica se o usuário está ativo
+            if($usuario->status == true)
+            {
+                // Salva a session
+                $_SESSION["usuario"] = $usuario;
 
-            // Retorna o usuário
-            $dados = [
-                "tipo" => true,
-                "objeto" => $usuario
-            ];
+                // Retorna o usuário
+                $dados = [
+                    "tipo" => true,
+                    "objeto" => $usuario
+                ];
+            }
+            else
+            {
+                // Avisa que ele não está ativo
+                $dados = [
+                    "mensagem" => "Seu usuário está inativado. Entre em contato com o administrador."
+                ];
+            }
+
+
 
             $this->retornoAPI($dados);
         }
