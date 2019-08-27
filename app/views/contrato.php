@@ -152,6 +152,20 @@
                         </td>
                     </tr>
 
+                    <?php if($balao != null): ?>
+                        <tr>
+                            <td><p>Forma Pagamento <br> Balões</p></td>
+                            <td>
+                                <p>
+                                    <?php foreach ($balao as $bal): ?>
+                                        Valor de R$<?= number_format($bal->valor,2,",","."); ?> <br>
+                                        Vencimento <?= date("d/m/Y",strtotime($bal->data)); ?><br><br>
+                                    <?php endforeach; ?>
+                                </p>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+
                     <tr>
                         <td><p>Taxa Juros Nominal</p></td>
                         <?php if($negociacao->juros == true): ?>

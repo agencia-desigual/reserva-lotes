@@ -22,6 +22,7 @@ use Model\Endereco;
 use Model\ValorFinanciamento;
 use Sistema\Controller as CI_Controller;
 
+
 class Imprimir extends CI_Controller
 {
     // Objetos
@@ -249,6 +250,7 @@ class Imprimir extends CI_Controller
         $cliente = null;
         $lote = null;
         $esposa = null;
+        $boleto = null;
         $meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
         // Busca os dados necessarios
@@ -265,17 +267,26 @@ class Imprimir extends CI_Controller
         // Verifica se é casado
         if($cliente->Id_esposa != null)
         {
+            // Busca a esposa
             $esposa = $this->ObjModelCliente->get(["Id_cliente" => $cliente->Id_esposa])->fetch(\PDO::FETCH_OBJ);
         }
 
+        // Busca o endereço
         $endereco = $this->ObjModelEndereco->get(["Id_endereco" => $cliente->Id_endereco])->fetch(\PDO::FETCH_OBJ);
 
-
+        // Busca os dados de Financiamento
         $financiamento = $this->ObjModelFinanciamento->get(["Id_valorFinanciamento" => $negociacao->Id_valorFinanciamento])->fetch(\PDO::FETCH_ASSOC);
         $valorParcela = $financiamento["parcela_" . $negociacao->numParcela];
 
         // Add o valor a negociacao
         $negociacao->valorParcela = str_replace(",",".",$valorParcela);
+
+        // Verifica se possui balão
+        if($negociacao->valorBalao > 0)
+        {
+            // Busca os baloes
+            $balao = $this->ObjModelBalao->get(["Id_negociacao" => $negociacao->Id_negociacao])->fetchAll(\PDO::FETCH_OBJ);
+        }
 
         // Dados da view
         $dados = [
@@ -285,11 +296,13 @@ class Imprimir extends CI_Controller
             "cliente" => $cliente,
             "endereco" => $endereco,
             "esposa" => $esposa,
+            "balao" => $balao,
             "mes" => $meses
         ];
 
         // Pega o html
         $this->view("contrato",$dados);
+
     } // END >> Fun::viewContrato()
 
 
