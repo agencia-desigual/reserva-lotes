@@ -451,6 +451,65 @@ class Principal extends CI_controller
 
 
 
+    /**
+     * Método responsavel por exibir a paginas de detalhes das
+     * neociações.
+     */
+    public function detalhesNegociacoes($param = null)
+    {
+        // Variaveis
+        $negociacoes = null;
+        $dados = null;
+        $corretor = null;
+        $cliente = null;
+        $lote = null;
+
+        // Seguranca
+        $usuario = $this->ObjHelperSeguranca->verificaLogin();
+
+
+        // Busca as negociacoes
+        $negociacoes = $this->ObjModelNegociacao->get(['Id_negociacao' => $param],"Id_negociacao DESC")->fetchAll(\PDO::FETCH_OBJ);
+
+        // Busca os dados principais para exibir as negociações
+        foreach ($negociacoes as $neg)
+        {
+            // Limpa os dados
+            $corretor = null;
+            $cliente = null;
+            $lote = null;
+
+            // Busca o lote
+            $lote = $this->ObjModelLote->get(["Id_lote" => $neg->Id_lote])->fetch(\PDO::FETCH_OBJ);
+
+            // Verifica se possui cliente
+            if($neg->Id_cliente != null && $neg->Id_cliente != 0 && $neg->Id_cliente != "")
+            {
+                // Busca o cliente
+                $cliente = $this->ObjModelCliente->get(["Id_cliente" => $neg->Id_cliente])->fetch(\PDO::FETCH_OBJ);
+            }
+
+            // Busca o corretor
+            $corretor = $this->ObjModelUsuario->get(["Id_usuario" => $neg->Id_usuario])->fetch(\PDO::FETCH_OBJ);
+
+            // Add os objetos
+            $neg->lote =  $lote;
+            $neg->corretor = $corretor;
+            $neg->cliente = $cliente;
+        }
+
+        // Array de exibição
+        $dados = [
+            "negociacoes" => $negociacoes,
+            "usuario" => $usuario
+        ];
+
+        // Chama a view
+        $this->view("painel/negociacoes_detalhes",$dados);
+
+    } // END >> Fun::negociacoes()
+
+
 
     /**
      * Método responsavel por exibir uma página com os corretores
