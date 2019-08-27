@@ -124,6 +124,7 @@ $Rotas->on("POST","ajax/busca-por-cep","Principal::buscaPorCEP");
 
 
 $Rotas->on("GET","negociacaoes","Principal::negociacaoes");
+$Rotas->on("GET","detalhes-negociacoes/{p}","Principal::detalhesNegociacoes");
 $Rotas->on("GET","corretores","Principal::corretores");
 $Rotas->on("GET","clientes","Principal::clientes");
 $Rotas->on("GET","lotes","Principal::lotes");
