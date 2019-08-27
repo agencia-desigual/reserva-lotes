@@ -79,14 +79,15 @@ else
 
                                     <?php if($usuario->nivel == "administrador"): ?>
                                         <td class="text-right">
-                                            <?php if($negociacoes->status != "cancelado"): ?>
+
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                    <a style="cursor:pointer;" class="dropdown-item" href="<?= BASE_URL; ?>detalhes-negociacoes/<?= $negociacoes->Id_negociacao ?>">Detalhes</a>
+                                                    <?php if($negociacoes->status != "cancelado"): ?>
                                                     <a style="cursor:pointer;" class="dropdown-item" onclick="alteraStatus('cancelar','<?= $negociacoes->Id_negociacao ?>')">Cancelar</a>
-
                                                     <?php if($negociacoes->status == "reservado"): ?>
                                                         <a style="cursor:pointer;" class="dropdown-item" onclick="alteraStatus('vender','<?= $negociacoes->Id_negociacao ?>')">Vender</a>
                                                     <?php endif; ?>
