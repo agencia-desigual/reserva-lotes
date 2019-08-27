@@ -9,11 +9,16 @@
 
 namespace Controller;
 
+use DateTime;
 use Dompdf\Dompdf;
+use Boleto\Boleto;
+use Boleto\Cedente;
+use Boleto\Sacado;
+use Boleto\GeradorBoleto;
+use Boleto\Banco\Sicredi;
 use Helper\Seguranca;
 use Model\Corretor;
 use Model\Endereco;
-use Model\SiteCadastro;
 use Model\ValorFinanciamento;
 use Sistema\Controller as CI_Controller;
 
@@ -28,6 +33,7 @@ class Imprimir extends CI_Controller
     private $ObjModelCorretor;
     private $ObjModelEndereco;
     private $ObjModelFinanciamento;
+    private $ObjModelBalao;
 
     // Método constutor
     public function __construct()
@@ -44,10 +50,11 @@ class Imprimir extends CI_Controller
         $this->ObjModelCorretor = new Corretor();
         $this->ObjModelEndereco = new Endereco();
         $this->ObjModelFinanciamento = new ValorFinanciamento();
-
-        require_once ("./app/library/dompdf/autoload.inc.php");
+        $this->ObjModelBalao = new \Model\Balao();
 
     } // END >> Fun::__construct()
+
+
 
 
     /**
@@ -57,115 +64,144 @@ class Imprimir extends CI_Controller
      * @param $tipo
      * @param $idNeg
      */
-    public function boleto($tipo, $idNeg)
+    public function boleto($tipo, $id, $numItem = null)
     {
         // Variaveis
         $dados = null;
         $cliente = null;
+        $negociacao = null;
+        $lote = null;
 
-        // Busca a negociação
-        $negociacao = $this->ObjModelNegociacao->get(["Id_negociacao" => $idNeg])->fetch(\PDO::FETCH_OBJ);
+        // Gambiarra suave
+        $numItem = ($numItem == null) ? 0 : $numItem - 1;
+
+        // Verifica o tipo
+        if($tipo == "balao")
+        {
+            // Busca o balao
+            $balao = $this->ObjModelBalao->get(["Id_balao" => $id])->fetch(\PDO::FETCH_OBJ);
+
+            // Busca a negociação
+            $negociacao = $this->ObjModelNegociacao->get(["Id_negociacao" => $balao->Id_negociacao])->fetch(\PDO::FETCH_OBJ);
+
+            // Seta o valor e de vencimento
+            $valor = number_format($balao->valor, 2, ",", "");
+            $dataVencimento = DateTime::createFromFormat("Y-m-d", $balao->data);
+        }
+        else
+        {
+            // Busca a negociação
+            $negociacao = $this->ObjModelNegociacao->get(["Id_negociacao" => $id])->fetch(\PDO::FETCH_OBJ);
+
+            // Verifica se é entrada ou parcela
+            if($tipo == "entrada")
+            {
+                // Valor da entrada
+                $valor = number_format(($negociacao->valorEntrada / $negociacao->numEntrada), 2, ",", "");
+
+                // Seta a data de vencimento
+                $dataVencimento = date('Y-m-d', strtotime("+{$numItem} months",strtotime($negociacao->vencimentoEntrada)));
+                $dataVencimento = DateTime::createFromFormat("Y-m-d", $negociacao->vencimentoEntrada);
+            }
+            else
+            {
+                // Busca o lote
+                $lote = $this->ObjModelLote->get(["Id_lote" => $negociacao->Id_lote])->fetch(\PDO::FETCH_OBJ);
+
+                // Verifica se possui juros
+                if($negociacao->juros == true)
+                {
+                    // Busca o financiamento
+                    if($negociacao->Id_valorFinanciamento == 0)
+                    {
+                        $valor = $lote->valor;
+                    }
+                    else
+                    {
+                        $financiamento = $this->ObjModelFinanciamento->get(["Id_valorFinanciamento" => $negociacao->Id_valorFinanciamento])->fetch(\PDO::FETCH_ASSOC);
+                        $finValor = $financiamento["parcela_" . $negociacao->numParcela];
+
+                        // Seta o valor
+                        $valor = str_replace(",",".",$finValor);
+                    }
+                }
+                else
+                {
+                    $valor = ($lote->valor - $negociacao->valorEntrada) / $negociacao->numParcela;
+                }
+
+                // Valor
+                $valor = number_format($valor, 2, ",", "");
+
+                // Dara vencimento
+                $dataVencimento = date('Y-m-d', strtotime("+{$numItem} months",strtotime($negociacao->vencimentoParcela)));
+                $dataVencimento = DateTime::createFromFormat("Y-m-d", $dataVencimento);
+            }
+        }
+
 
         // Busca o cliente da negociacao
         $cliente = $this->ObjModelCliente->get(["Id_cliente" => $negociacao->Id_cliente])->fetch(\PDO::FETCH_OBJ);
         $endereco = $this->ObjModelEndereco->get(["Id_endereco" => $cliente->Id_endereco])->fetch(\PDO::FETCH_OBJ);
 
-
-        // --- BOLETO
-        $taxa_boleto = 0;
-
-        if($tipo == "entrada")
-        {
-            $data_venc = date("d/m/Y", strtotime($negociacao->vencimentoEntrada));  // Prazo de X dias OU informe data: "13/04/2006";
-            $valor_cobrado = ($negociacao->valorEntrada / $negociacao->numEntrada); // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
-            $valor_cobrado = str_replace(",", ".",$valor_cobrado);
-            $valor_boleto = number_format($valor_cobrado + $taxa_boleto, 2, ',', '');
-
-            $dadosboleto["demonstrativo2"] = "Valor referente a entrada.<br>Taxa bancária - R$ ".number_format($taxa_boleto, 2, ',', '');
-        }
-        else
-        {
-            // Busca o Financiamento
-            $fin = $this->ObjModelFinanciamento->get(["Id_valorFinanciamento" => $negociacao->Id_valorFinanciamento])->fetch(\PDO::FETCH_ASSOC);
-
-            if($negociacao->juros == true)
-            {
-                $valor = $fin["parcela_" . $negociacao->numParcela];
-            }
-            else
-            {
-                $valor = $fin["valor"] / $negociacao->numParcela;
-            }
+        $logradouro = explode(" ", $endereco->logradouro);
+        $end = str_replace($logradouro[0],"", $endereco->logradouro);
 
 
-            $data_venc = date("d/m/Y", strtotime($negociacao->vencimentoParcela));  // Prazo de X dias OU informe data: "13/04/2006";
-            $valor_cobrado = $valor; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
-            $valor_cobrado = str_replace(",", ".",$valor_cobrado);
-            $valor_boleto = number_format($valor_cobrado + $taxa_boleto, 2, ',', '');
+        // -- Gera o Boleto
+        $Boleto = new Boleto();
 
-            $dadosboleto["demonstrativo2"] = "Valor referente a 1ª Parcela.<br>Taxa bancária - R$ ".number_format($taxa_boleto, 2, ',', '');
-        }
+        //Configurações do banco
+        $Sicredi = new Sicredi();
+        $Sicredi->setCarteira('A');//C - Sem registro | A - Com Registro
+        $Sicredi->setPosto("04");
+        $Sicredi->setByte("2");
 
+        //Dados do Boleto
+        $Boleto->setBanco($Sicredi);
+        $Boleto->setNumeroMoeda("9");
+        $Boleto->setDataVencimento($dataVencimento);
+        $Boleto->setDataDocumento(DateTime::createFromFormat('d/m/Y', date("d/m/Y")));
+        $Boleto->setDataProcessamento(DateTime::createFromFormat('d/m/Y', date("d/m/Y")));
+        $Boleto->addInstrucao("- Sr. Caixa, não receber após o vencimento");
+        $Boleto->addInstrucao("- Após o vencimento cobrar mora diária de 0,33%");
+        $Boleto->addDemonstrativo("Orçamento realizado em " . date("d/m/Y"));
+        $Boleto->addDemonstrativo("Execução de serviços diversos");
+        $Boleto->setValorBoleto($valor);
+        $Boleto->setNossoNumero(str_pad($negociacao->Id_negociacao, 5, "0", STR_PAD_LEFT));
 
-        // DADOS DO BOLETO PARA O SEU CLIENTE
+        //Dados do Cendente
+        $Cedente = new Cedente();
+        $Cedente->setNome("PAU BRASIL EMPREENDIMENTOS IMOBILIÁRIOS LTDA");
+        $Cedente->setAgencia("3021");
+        $Cedente->setDvAgencia("04");
+        $Cedente->setConta("09866");
+        $Cedente->setDvConta("3");
+        $Cedente->setEndereco("Rua Afonso Pena, N&ordm; 613, Centro");
+        $Cedente->setCidade("Araçatuba");
+        $Cedente->setUf("SP");
+        $Cedente->setCpfCnpj("00.858.180/0001-47");
+        $Cedente->setCodigoCedente("09866");
+        $Boleto->setCedente($Cedente);
 
-        $dadosboleto["inicio_nosso_numero"] = date("y");	// Ano da geração do título ex: 07 para 2007
-        $dadosboleto["nosso_numero"] = $negociacao->Id_negociacao; // Nosso numero (máx. 5 digitos) - Numero sequencial de controle.
-        $dadosboleto["numero_documento"] = "27.3050." . $negociacao->Id_negociacao;	// Num do pedido ou do documento
-        $dadosboleto["data_vencimento"] = $data_venc; // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
-        $dadosboleto["data_documento"] = date("d/m/Y"); // Data de emissão do Boleto
-        $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)
-        $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
+        //Dados do Sacado
+        $Sacado = new Sacado();
+        $Sacado->setNome($cliente->nome);
+        $Sacado->setTipoLogradouro($logradouro[0]);
+        $Sacado->setEnderecoLogradouro($end);
+        $Sacado->setNumeroLogradouro($endereco->numero);
+        $Sacado->setCidade($endereco->cidade);
+        $Sacado->setUf($endereco->estado);
+        $Sacado->setCpfCnpj($cliente->cpf);
+        $Sacado->setCep($endereco->cep);
+        $Boleto->setSacado($Sacado);
 
-        // DADOS DO SEU CLIENTE
-        $dadosboleto["sacado"] = $cliente->nome;
-        $dadosboleto["endereco1"] = $endereco->logradouro . ", " . $endereco->numero;
-        $dadosboleto["endereco2"] = $endereco->cidade . " - " . $endereco->estado . " -  CEP: " . $endereco->cep;
+        //Gera nosso número padrão sicredi
+        $Sicredi->setNossoNumeroFormatado($Boleto);
 
-        // INFORMACOES PARA O CLIENTE
-        $dadosboleto["demonstrativo1"] = "Pagamento de Compra em GreenPark Araçatuba";
-        $dadosboleto["demonstrativo3"] = "GreenPark Araçatuba";
-
-        // INSTRUÇÕES PARA O CAIXA
-        $dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
-        $dadosboleto["instrucoes2"] = "- Em caso de dúvidas entre em contato conosco: contato@greenparkaracatuba.com.br";
-        $dadosboleto["instrucoes3"] = "&nbsp; Emitido pelo sistema da GreenPark Araçatuba";
-        $dadosboleto["instrucoes4"] = "";
-
-        // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
-        $dadosboleto["quantidade"] = "";
-        $dadosboleto["valor_unitario"] = "";
-        $dadosboleto["aceite"] = "S";	    // N - remeter cobrança sem aceite do sacado  (cobranças não-registradas)
-        // S - remeter cobrança apos aceite do sacado (cobranças registradas)
-        $dadosboleto["especie"] = "R$";
-        $dadosboleto["especie_doc"] = "A"; // OS - Outros segundo manual para cedentes de cobrança SICREDI
-
-
-        // ---------------------- DADOS FIXOS DE CONFIGURAÇÃO DO SEU BOLETO --------------- //
-
-
-        // DADOS DA SUA CONTA - SICREDI
-        $dadosboleto["agencia"] = "3021"; 	// Num da agencia (4 digitos), sem Digito Verificador
-        $dadosboleto["conta"] = "09866"; 	// Num da conta (5 digitos), sem Digito Verificador
-        $dadosboleto["conta_dv"] = "3"; 	// Digito Verificador do Num da conta
-
-        // DADOS PERSONALIZADOS - SICREDI
-        $dadosboleto["posto"]= "04";      // Código do posto da cooperativa de crédito
-        $dadosboleto["byte_idt"]= "2";	  // Byte de identificação do cedente do bloqueto utilizado para compor o nosso número.
-        // 1 - Idtf emitente: Cooperativa | 2 a 9 - Idtf emitente: Cedente
-        $dadosboleto["carteira"] = "A";   // Código da Carteira: A (Simples)
-
-        // SEUS DADOS
-        $dadosboleto["identificacao"] = "GreenPark Araçatuba";
-        $dadosboleto["cpf_cnpj"] = "00.858.180/0001-47";
-        $dadosboleto["endereco"] = "Rua Afonso Pena, 613";
-        $dadosboleto["cidade_uf"] = "Araçatuba / SP";
-        $dadosboleto["cedente"] = "PAU BRASIL EMPREENDIMENTOS IMOBILIÁRIOS";
-
-
-        // Chama os arquivos que vai gerar o boleto ]
-        include("./app/helpers/boleto/funcoes_sicredi.php");
-        include("./app/helpers/boleto/layout_sicredi.php");
+        //Gera boleto em PDF
+        $GeradorBoleto = new GeradorBoleto();
+        $GeradorBoleto->gerar($Boleto)->Output('boleto.pdf', 'I');
 
     } // END >> Fun::boleto()
 
@@ -203,8 +239,7 @@ class Imprimir extends CI_Controller
     } // END >> Fun::contrato()
 
 
-
-
+    // Metodo responsável por criar a tela de exibição do contrato
     public function viewContrato($idNeg)
     {
         // Variaveis
@@ -255,7 +290,19 @@ class Imprimir extends CI_Controller
 
         // Pega o html
         $this->view("contrato",$dados);
-    }
+    } // END >> Fun::viewContrato()
+
+
+
+
+    /*****************************************
+     *
+     *           MÉTODOS PRIVADOS
+     *
+     *****************************************/
+
+
+
 
 
 } // END >> Class::Imprimir

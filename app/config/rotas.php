@@ -61,7 +61,7 @@ $Rotas->group("corretor","corretor","Corretor");
 $Rotas->group("lote","lote","Lote");
 $Rotas->group("imprimir","imprimir","Imprimir");
 $Rotas->group("cadsite","cadsite","CadSite");
-
+$Rotas->group("balao","balao","Balao");
 
 
 // Rotas de Grupos
@@ -97,6 +97,7 @@ $Rotas->onGroup("corretor","GET","get/{p}","get");
 
 
 // -- Imprimir
+$Rotas->onGroup("imprimir","GET","boleto/{p}/{p}/{p}","boleto");
 $Rotas->onGroup("imprimir","GET","boleto/{p}/{p}","boleto");
 $Rotas->onGroup("imprimir","GET","contrato/{p}","contrato");
 $Rotas->onGroup("imprimir","GET","view-contrato/{p}","viewContrato");
@@ -105,6 +106,10 @@ $Rotas->onGroup("imprimir","GET","view-boleto/{p}/{p}","viewBoleto");
 
 // -- Cadastro Site
 $Rotas->onGroup("cadsite","GET","ajaxbuscacadastro/{p}","ajaxBuscaCadastro");
+
+
+// -- Balao
+$Rotas->onGroup("balao","GET","insert/{p}","insert");
 
 
 

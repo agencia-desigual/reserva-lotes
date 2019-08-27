@@ -11,7 +11,7 @@ date_default_timezone_set("America/Sao_Paulo");
 global $Rotas;
 
 // AutoLoad
-require("sistema/Helper/autoload.php");
+require("./vendor/autoload.php");
 
 // Objetos de configuração do sistema
 use Sistema\Rotas;
