@@ -8,7 +8,6 @@
         }
     },
     "require": {
-        "paseto/boleto-sicredi": "^0.1.4",
-        "dompdf/dompdf": "^0.8.3"
+        "paseto/boleto-sicredi": "^0.1.4"
     }
 }

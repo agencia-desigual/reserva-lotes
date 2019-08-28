@@ -53,6 +53,8 @@ class Imprimir extends CI_Controller
         $this->ObjModelFinanciamento = new ValorFinanciamento();
         $this->ObjModelBalao = new \Model\Balao();
 
+        require_once ("./app/library/dompdf/autoload.inc.php");
+
     } // END >> Fun::__construct()
 
 
@@ -217,14 +219,11 @@ class Imprimir extends CI_Controller
      */
     public function contrato($idNeg)
     {
-        // Seguranca
-        $this->ObjHelperSeguranca->verificaLogin();
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
 
         // Pega o conteudo
         $html = file_get_contents(BASE_URL . "imprimir/view-contrato/" . $idNeg);
-
-        // instantiate and use the dompdf class
-        $dompdf = new Dompdf();
 
         $dompdf->loadHtml($html,'UTF-8');
 
@@ -235,7 +234,7 @@ class Imprimir extends CI_Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        $dompdf->stream("contrato.pdf", array("Attachment" => 1));
+        $dompdf->stream("contrato.pdf", array("Attachment" => 0));
 
     } // END >> Fun::contrato()
 
@@ -251,6 +250,7 @@ class Imprimir extends CI_Controller
         $lote = null;
         $esposa = null;
         $boleto = null;
+        $balao = null;
         $meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
         // Busca os dados necessarios

@@ -589,6 +589,9 @@ function alteraJuros(tipo)
     }
 }
 
+
+
+
 //Função responsavel por pegar a quantidade de parcelas do balão
 //E gerar o html dinamico das parcelas
 function parcelasBalao(parcelas) {
@@ -603,7 +606,6 @@ function parcelasBalao(parcelas) {
     var valorTotal = null;
     var qtdeParcelas = null;
     var valorParcelas = null;
-    var conteudo = "";
     var i = 0;
 
     //Pegando a quantidade de parcelas por parametro
@@ -648,6 +650,19 @@ function parcelasBalao(parcelas) {
 }
 
 
+function verificaBalao(valor)
+{
+    if(valor === "sim")
+    {
+        $("#telaBalao").css("display","block");
+    }
+    else
+    {
+        $("#telaBalao").css("display","none");
+    }
+}
+
+
 
 /**
  *  ---------------------------------
@@ -679,6 +694,7 @@ $("#form_etapa1").on("submit",function () {
         "vencimentoParcela": form.get("vencimentoParcela"),
         "status": "reservado",
         "Id_valorFinanciamento": 0,
+        "valorBalao": Dados.ValorBalao,
         "juros": form.get("juros")
     }
 
@@ -698,8 +714,47 @@ $("#form_etapa1").on("submit",function () {
             // Salva o conteudo
             Dados.Id_negociacao = data.objeto.Id_negociacao;
 
-            // Pula para a etapa 2
-            alteraEtapa("etapa2");
+            // Verifica se possui balao
+            if(Dados.ValorBalao > 0)
+            {
+                // Salva balao obj
+                var salvaBalao = {
+                    numParcelaBalao: Dados.ParcelaBalao
+                }
+
+                // Percorre o formulario do balao
+                for(var i = 1; i <= Dados.ParcelaBalao; i++)
+                {
+                    salvaBalao["valor_" + i] = ($("#input_valorParcelaBalao" + i).val().replace(".","")).replace(",",".");
+                    salvaBalao["data_" + i] = $("#input_dataParcela" + i).val();
+                }
+
+                // Envia para cadastrar
+                $.post(BASE_URL + "balao/insert/" + Dados.Id_negociacao, salvaBalao, (data2) => {
+
+                    if(data2.tipo == true)
+                    {
+                        // Pula para a etapa 2
+                        alteraEtapa("etapa2");
+                    }
+                    else
+                    {
+                        // Avisa que deu erro no balao
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Opss!',
+                            text: data2.mensagem
+                        })
+                    }
+
+                }, "json");
+
+            }
+            else
+            {
+                // Pula para a etapa 2
+                alteraEtapa("etapa2");
+            }
         }
         else
         {

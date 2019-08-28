@@ -82,10 +82,43 @@
                         </div>
                     </div>
 
+                    <?php if($_SESSION["usuario"]->nivel == "administrador"): ?>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="p-r-20">
+                                    <label>Vencimento Entrada</label>
+                                    <input type="date" id="input_vencimentoEntrada" name="vencimentoEntrada" min="<?= date("Y-m-d"); ?>" />
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="p-l-20">
+                                    <label>Possui Balão</label>
+                                    <select onchange="verificaBalao(this.value)">
+                                        <option value="nao" selected>Não Possui</option>
+                                        <option value="sim">Sim Possui</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php else: ?>
+
+                        <div class="row">
+                            <div class="col-1">
+                                <label>Vencimento Entrada</label>
+                                <input type="date" id="input_vencimentoEntrada" name="vencimentoEntrada" min="<?= date("Y-m-d"); ?>" />
+                            </div>
+                        </div>
+
+                    <?php endif; ?>
+
+
                     <!-- BALAO -->
                     <?php if($_SESSION["usuario"]->nivel == "administrador"): ?>
-                        <div class="row">
-                            <h3 class="centraliza-itens">Balão</h3>
+
+                        <div class="row" id="telaBalao" style="display: none;">
+                            <h3 class="centraliza-itens p-b-20 p-t-30" style="color: #3e969c;">Balão</h3>
                             <!-- Valor total do balão -->
                             <div class="col-2">
                                 <div class="p-r-20">
@@ -115,7 +148,7 @@
                             </div>
                         </div>
 
-                        <div id="parcelasBalao">
+                        <div id="parcelasBalao" class="m-b-30">
 
                             <?php for($i = 1; $i <= 10; $i++): ?>
 
@@ -138,24 +171,16 @@
                             <?php endfor; ?>
 
                         </div>
+
+                        <h3 class="text-align-center p-b-20 p-t-30" style="display: block; clear: both; color: #3e969c;">Financiamento</h3>
                     <?php endif; ?>
                     <!-- FIM BALAO -->
 
                     <div class="row">
-                        <!-- Vendedor -->
-                        <div class="col-2">
-                            <div class="p-r-20">
-                                <label>Vencimento Entrada</label>
-                                <input type="date" id="input_vencimentoEntrada" name="vencimentoEntrada" min="<?= date("Y-m-d"); ?>" />
-                            </div>
-                        </div>
-
                         <!-- Valor do Lote -->
-                        <div class="col-2">
-                            <div class="p-l-20">
-                                <label>Valor a ser financiado</label>
-                                <p id="txt_valorFinanciado">R$0,00</p>
-                            </div>
+                        <div class="col-1">
+                            <label>Valor a ser financiado</label>
+                            <p id="txt_valorFinanciado">R$0,00</p>
                         </div>
                     </div>
 
@@ -248,6 +273,44 @@
                 <h4>Informações do Cliente</h4>
 
                 <form id="form_etapa2">
+
+                    <div class="row">
+                        <div class="col-1">
+                            <label>Selecione o tipo de pessoa</label>
+                            <select onclick="verificaPessoa(this.value)">
+                                <option value="fisica" selected>Pessoa Física</option>
+                                <option value="juridica" >Pessoa Jurídica</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div id="divEmpresa" style="display: none;">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="p-r-20">
+                                    <label>CNPJ</label>
+                                    <input type="text" name="cnpj" class="maskCNPJ" />
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="p-l-20">
+                                    <label>Inscrição Estadual</label>
+                                    <input type="text" name="ie" id="input_ie" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-1">
+                                <label>Nome da Empresa</label>
+                                <input type="text" name="nomeEmpresa" id="input_nomeEmpresa" />
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="row">
                         <div class="col-2">
                             <div class="p-r-20">
@@ -292,6 +355,8 @@
                             <input type="email" name="email" id="input_email" />
                         </div>
                     </div>
+
+
 
                     <div id="div_someCliente" style="display: block;">
                         <div class="row">

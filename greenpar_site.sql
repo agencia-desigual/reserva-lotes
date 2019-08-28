@@ -296,7 +296,7 @@ COMMIT;
 CREATE TABLE balao (
    Id_balao int(10) NOT NULL AUTO_INCREMENT,
    Id_negociacao int(10) NOT NULL,
-   valor varchar(100) NOT NULL,
+   valor DOUBLE NOT NULL,
    data DATE NOT NULL,
    PRIMARY KEY (Id_balao),
    FOREIGN KEY (Id_negociacao) REFERENCES negociacao(Id_negociacao)

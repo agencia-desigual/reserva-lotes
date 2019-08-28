@@ -116,7 +116,7 @@ class Balao extends CI_controller
 
 
         // Segurança
-        $this->ObjHelperSeguranca->verificaLogin();
+//        $this->ObjHelperSeguranca->verificaLogin();
 
         // Pega os dados enviados por post
         $post = $_POST;
@@ -147,7 +147,7 @@ class Balao extends CI_controller
                 if($this->ObjModelBalao->insert($salva) == false)
                 {
                     // Deleta os balões inseridos
-                    $this->ObjModelBalao->delete(["Id_negociacao" => $$idNegociacao]);
+                    $this->ObjModelBalao->delete(["Id_negociacao" => $idNegociacao]);
 
                     // Retorna o erro
                     $this->retornoAPI(["mensagem" => "Erro ao inserir o balão de parcela: {$i}"]);

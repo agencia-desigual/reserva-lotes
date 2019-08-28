@@ -1,4 +1,4 @@
-var BASE_URL = "http://localhost/Desigual/reserva-lotes/";
+var BASE_URL = "http://localhost/Desigual/lotes/reserva-lotes/";
 // var BASE_URL = "https://sistema.greenparkaracatuba.com.br/";
 
 

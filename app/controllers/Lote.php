@@ -222,6 +222,7 @@ class Lote extends CI_Controller
                 "vencimentoParcela" => $post["vencimentoParcela"],
                 "vencimentoEntrada" => $post["vencimentoEntrada"],
                 "status" => $post["status"],
+                "valorBalao" => number_format($post["valorBalao"], 2, ".", ""),
                 "juros" => $post["juros"]
             ];
 
