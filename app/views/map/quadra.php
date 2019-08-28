@@ -82,6 +82,65 @@
                         </div>
                     </div>
 
+                    <!-- BALAO -->
+                    <?php if($_SESSION["usuario"]->nivel == "administrador"): ?>
+                        <div class="row">
+                            <h3 class="centraliza-itens">Balão</h3>
+                            <!-- Valor total do balão -->
+                            <div class="col-2">
+                                <div class="p-r-20">
+                                    <label>Valor total</label>
+                                    <input type="text" class="maskValor" id="input_valorTotalBalao" name="valorTotalBalao" />
+                                </div>
+                            </div>
+
+                            <!-- Numero de paecelas -->
+                            <div class="col-2">
+                                <div class="p-l-20">
+                                    <label>Número de parcelas</label>
+                                    <select id="numParcelasBalao" name="numParcelasBalao"onchange="parcelasBalao(this.value)">
+                                        <option selected disabled>Selecione</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="parcelasBalao">
+
+                            <?php for($i = 1; $i <= 10; $i++): ?>
+
+                                <div id="balaoParcela<?=$i?>" style="display: none" class="row">
+                                    <div class="col-2">
+                                        <div class="p-r-20">
+                                            <label>Valor da <?=$i?>º parcela</label>
+                                            <input type="text" class="maskValorVigula" id="input_valorParcelaBalao<?=$i?>" name="valorParcelaBalao<?=$i?>" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="p-l-20">
+                                            <label>Data da <?=$i?>º parcela</label>
+                                            <input type="date" id="input_dataParcela<?=$i?>" name="dataParcela<?=$i?>" value="<?= date("Y-m-d",strtotime("+{$i} years",strtotime(date("Y-m-d")))); ?>" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php endfor; ?>
+
+                        </div>
+                    <?php endif; ?>
+                    <!-- FIM BALAO -->
+
                     <div class="row">
                         <!-- Vendedor -->
                         <div class="col-2">

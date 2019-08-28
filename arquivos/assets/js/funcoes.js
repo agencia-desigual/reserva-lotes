@@ -15,7 +15,9 @@ var Dados = {
     "valorEntrada": 0,
     "lote_etapa": "etapa1",
     "modal" : "",
-    "tipo" : ""
+    "tipo" : "",
+    "ValorBalao" : 0,
+    "ParcelaBalao" : 0
 }
 
 
@@ -271,10 +273,12 @@ function abreModal(id)
 function buscaInfoFinanciamento(valor)
 {
     var valorFin, sobra, financiamento;
-    
-    valor = valor.replace(/[^0-9]/g,'');
-    valor = parseInt(valor);
-    
+
+    if(!Number.isInteger(valor)){
+        valor = valor.replace(/[^0-9]/g,'');
+        valor = parseInt(valor);
+    }
+
     // Verifica se o valor é multiplo de 100 
     sobra = (valor % 100);
 
@@ -287,7 +291,7 @@ function buscaInfoFinanciamento(valor)
     // Salva o valor da entrada
     Dados.valorEntrada = valor; 
 
-    valorFin = Dados.lote.valor - valor;
+    valorFin = (Dados.lote.valor - valor) - parseInt(Dados.ValorBalao);
 
     if(valorFin > 0)
     {
@@ -583,6 +587,64 @@ function alteraJuros(tipo)
         // Manda calculas
         selecionaNumParcelas(numPar);
     }
+}
+
+//Função responsavel por pegar a quantidade de parcelas do balão
+//E gerar o html dinamico das parcelas
+function parcelasBalao(parcelas) {
+
+    //Limpando todos os campos das parcelas
+    for (i = 1; i <= 10; i++) {
+        $("#balaoParcela"+i).css('display','none');
+        $("#input_valorParcelaBalao"+i).val("");
+    }
+
+    //Variaveis
+    var valorTotal = null;
+    var qtdeParcelas = null;
+    var valorParcelas = null;
+    var conteudo = "";
+    var i = 0;
+
+    //Pegando a quantidade de parcelas por parametro
+    qtdeParcelas = parseInt(parcelas);
+
+    //Pegando o valor total do balão
+     valorTotal = parseInt($("#input_valorTotalBalao").val().replace('.',''));
+
+     console.log(valorTotal);
+
+    //Verificando se ele inseriu o valorTotal do balão para
+    //Proseguir o calculo.
+    if(!Number.isNaN(valorTotal) && valorTotal > 0){
+
+        valorParcelas = valorTotal / qtdeParcelas;
+        valorParcelas = formatMoney(parseFloat(valorParcelas), 2,"",".",",");
+
+        //Gerando os campos da parcelas dinamicamente
+        for (i = 1; i <= qtdeParcelas; i++) {
+            $("#balaoParcela"+i).css('display','block');
+            $("#input_valorParcelaBalao"+i).val(valorParcelas);
+        }
+
+        //Passando os valores para a global
+        Dados.ValorBalao = valorTotal;
+        Dados.ParcelaBalao = qtdeParcelas;
+
+        //Calculando o valor a se financiado com o desconto do balão
+        buscaInfoFinanciamento(Dados.valorEntrada);
+
+    }else {
+        // Avisa o errp
+        Swal.fire({
+            type: 'error',
+            title: 'Opss!',
+            text: "Digite um valor para o cálculo"
+        });
+    }
+
+
+    // alert(parcelas.options[parcelas.selectedIndex].text);
 }
 
 
