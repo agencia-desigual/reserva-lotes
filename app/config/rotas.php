@@ -109,8 +109,11 @@ $Rotas->onGroup("cadsite","GET","ajaxbuscacadastro/{p}","ajaxBuscaCadastro");
 
 
 // -- Balao
-$Rotas->onGroup("balao","GET","insert/{p}","insert");
-
+$Rotas->onGroup("balao","POST","insert/{p}","insert");
+$Rotas->onGroup("balao","GET","get/{p}","get");
+$Rotas->onGroup("balao","POST","update/{p}","update");
+$Rotas->onGroup("balao","GET","delete/{p}","delete");
+$Rotas->onGroup("balao","GET","delete-negociacao/{p}","delete");
 
 
 // Rotas Diretas
