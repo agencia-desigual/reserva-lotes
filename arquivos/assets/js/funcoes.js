@@ -102,6 +102,10 @@ function fechaModal(modal)
     Dados.lote_etapa = "etapa1";
     Dados.modal = "";
     Dados.tipo = "";
+    Dados.tipoPessoa = "fisica";
+    Dados.ParcelaBalao = 0;
+    Dados.ValorBalao = 0;
+
 
     // Limpa os forms
     $('#form_etapa1').each (function(){

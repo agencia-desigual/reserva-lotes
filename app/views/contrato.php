@@ -85,71 +85,47 @@
                 <h3>Proposta de compra: <span>0<?= $negociacao->Id_negociacao; ?></span></h3>
                 <h3>Vendedor: <span style="color: #000;"><?= $corretor->nome; ?></span></h3>
 
-                <p style="padding-top: 30px;">
-                    <b>Proponente:</b>
-                    <?= $cliente->nome; ?>
-                </p>
 
-                <p>
-                    <b>Endereço:</b>
-                    <?= $endereco->logradouro; ?>, Nº <?= $endereco->numero; ?>
-                </p>
+                <?php if($cliente->cnpj != null && $cliente->cnpj != ""): ?>
 
-                <p>
-                    <b>CEP:</b>
-                    <?= $endereco->cep; ?>
+                    <p style="padding-top: 30px;">
+                        <b>Nome da Empresa:</b>
+                        <?= $cliente->nomeEmpresa; ?>
+                    </p>
 
-                    <b style="padding-left: 60px">Bairro:</b>
-                    <?= $endereco->bairro; ?>
-
-                    <b style="padding-left: 60px">Cidade:</b>
-                    <?= $endereco->cidade; ?> - <?= $endereco->estado; ?>
-                </p>
+                    <p>
+                        <b>Inscrição Estadual:</b>
+                        <?= $cliente->ie; ?>
+                    </p>
 
 
-                <p>
-                    <b>RG:</b>
-                    <?= $cliente->rg; ?>
-
-                    <b style="padding-left: 60px">CPF:</b>
-                    <?= $cliente->cpf; ?>
-
-                    <b style="padding-left: 60px">Estado Civil:</b>
-                    <?= $cliente->estadoCivil; ?>
-                </p>
+                    <p>
+                        <b>CNPJ:</b>
+                        <?= $cliente->cnpj; ?>
+                    </p>
 
 
-                <p>
-                    <b>Celular:</b>
-                    <?= $cliente->celular; ?>
+                    <p>
+                        <b>Endereço:</b>
+                        <?= $endereco->logradouro; ?>, Nº <?= $endereco->numero; ?>
+                    </p>
 
-                    <b style="padding-left: 60px">Telefone:</b>
-                    <?= $cliente->telefone; ?>
+                    <p>
+                        <b>CEP:</b>
+                        <?= $endereco->cep; ?>
 
-                    <b style="padding-left: 60px">Data Nascimento:</b>
-                    <?= date("d/m/Y",strtotime($cliente->dataNascimento)); ?>
-                </p>
+                        <b style="padding-left: 60px">Bairro:</b>
+                        <?= $endereco->bairro; ?>
 
+                        <b style="padding-left: 60px">Cidade:</b>
+                        <?= $endereco->cidade; ?> - <?= $endereco->estado; ?>
+                    </p>
 
-                <p>
-                    <b>Renda:</b>
-                    R$<?= number_format($cliente->renda,2,",","."); ?>
+                <?php else: ?>
 
-                    <b style="padding-left: 60px">Profissao:</b>
-                    <?= $cliente->profissao; ?>
-                </p>
-
-                <p>
-                    <b>E-mail:</b>
-                    <?= $cliente->email; ?>
-                </p>
-
-
-                <?php if($esposa != null): ?>
-
-                    <p style="padding-top: 50px;">
-                        <b>Esposa(o):</b>
-                        <?= $esposa->nome; ?>
+                    <p style="padding-top: 30px;">
+                        <b>Proponente:</b>
+                        <?= $cliente->nome; ?>
                     </p>
 
                     <p>
@@ -165,45 +141,107 @@
                         <?= $endereco->bairro; ?>
 
                         <b style="padding-left: 60px">Cidade:</b>
-
                         <?= $endereco->cidade; ?> - <?= $endereco->estado; ?>
                     </p>
 
+
                     <p>
                         <b>RG:</b>
-                        <?= $esposa->rg; ?>
+                        <?= $cliente->rg; ?>
 
                         <b style="padding-left: 60px">CPF:</b>
-                        <?= $esposa->cpf; ?>
+                        <?= $cliente->cpf; ?>
 
                         <b style="padding-left: 60px">Estado Civil:</b>
-                        <?= $esposa->estadoCivil; ?>
+                        <?= $cliente->estadoCivil; ?>
                     </p>
+
 
                     <p>
                         <b>Celular:</b>
-                        <?= $esposa->celular; ?>
+                        <?= $cliente->celular; ?>
 
                         <b style="padding-left: 60px">Telefone:</b>
-                        <?= $esposa->telefone; ?>
+                        <?= $cliente->telefone; ?>
 
                         <b style="padding-left: 60px">Data Nascimento:</b>
-                        <?= date("d/m/Y",strtotime($esposa->dataNascimento)); ?>
+                        <?= date("d/m/Y",strtotime($cliente->dataNascimento)); ?>
                     </p>
+
 
                     <p>
                         <b>Renda:</b>
-                        R$<?= number_format($esposa->renda,2,",","."); ?>
-                        <b style="padding-left: 60px">Profissao:</b> <?= $esposa->profissao; ?>
+                        R$<?= number_format($cliente->renda,2,",","."); ?>
+
+                        <b style="padding-left: 60px">Profissao:</b>
+                        <?= $cliente->profissao; ?>
                     </p>
 
                     <p>
-                        <b>E-mail:</b> <?= $esposa->email; ?>
+                        <b>E-mail:</b>
+                        <?= $cliente->email; ?>
                     </p>
 
+
+                    <?php if($esposa != null): ?>
+
+                        <p style="padding-top: 50px;">
+                            <b>Esposa(o):</b>
+                            <?= $esposa->nome; ?>
+                        </p>
+
+                        <p>
+                            <b>Endereço:</b>
+                            <?= $endereco->logradouro; ?>, Nº <?= $endereco->numero; ?>
+                        </p>
+
+                        <p>
+                            <b>CEP:</b>
+                            <?= $endereco->cep; ?>
+
+                            <b style="padding-left: 60px">Bairro:</b>
+                            <?= $endereco->bairro; ?>
+
+                            <b style="padding-left: 60px">Cidade:</b>
+
+                            <?= $endereco->cidade; ?> - <?= $endereco->estado; ?>
+                        </p>
+
+                        <p>
+                            <b>RG:</b>
+                            <?= $esposa->rg; ?>
+
+                            <b style="padding-left: 60px">CPF:</b>
+                            <?= $esposa->cpf; ?>
+
+                            <b style="padding-left: 60px">Estado Civil:</b>
+                            <?= $esposa->estadoCivil; ?>
+                        </p>
+
+                        <p>
+                            <b>Celular:</b>
+                            <?= $esposa->celular; ?>
+
+                            <b style="padding-left: 60px">Telefone:</b>
+                            <?= $esposa->telefone; ?>
+
+                            <b style="padding-left: 60px">Data Nascimento:</b>
+                            <?= date("d/m/Y",strtotime($esposa->dataNascimento)); ?>
+                        </p>
+
+                        <p>
+                            <b>Renda:</b>
+                            R$<?= number_format($esposa->renda,2,",","."); ?>
+                            <b style="padding-left: 60px">Profissao:</b> <?= $esposa->profissao; ?>
+                        </p>
+
+                        <p>
+                            <b>E-mail:</b> <?= $esposa->email; ?>
+                        </p>
+
+                    <?php endif; ?>
+
                 <?php endif; ?>
-
-
                 <p style="padding-top: 50px;">
                     Proposta para aquisição do lote Nº
                     <b><?= $lote->numeroLote; ?></b>
