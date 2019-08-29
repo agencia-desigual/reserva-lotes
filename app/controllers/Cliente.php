@@ -164,6 +164,26 @@ class Cliente extends CI_Controller
                     "estadoCivil" => $post["estadoCivil"]
                 ];
 
+
+                // -- Verifica se é empresa
+                if(isset($post["cnpj"]) == true)
+                {
+                    // Verifica se o cnpj é valido
+                    if($this->validarCNPJ($post["cnpj"]) == true)
+                    {
+                        $salvaCli1["cnpj"] = preg_replace('/[^0-9]/', '', (string) $post["cnpj"]);
+                        $salvaCli1["ie"] = $post["ie"];
+                        $salvaCli1["nomeEmpresa"] = $post["nomeEmpresa"];
+                    }
+                    else
+                    {
+                        // Envia a mensagem de erro e mata o código
+                        $this->retornoAPI([
+                            "mensagem" => "CNPJ informado é inválido."
+                        ]);
+                    }
+                }
+
                 // Insere o cliente
                 $cliente1 = $this->inserirCliente($salvaCli1,"arquivo");
 
@@ -279,9 +299,10 @@ class Cliente extends CI_Controller
             // Variaveis
             $esposa = null;
 
-
+            // Informações POST
             $post = $_POST;
 
+            // Busca o cliente
             $cliente = $this->ObjModelCliente->get(["Id_cliente" => $Id_cliente])->fetch(\PDO::FETCH_OBJ);
 
             // Dados da esposa
@@ -300,6 +321,7 @@ class Cliente extends CI_Controller
                 "estadoCivil" => $_POST['esp_estadoCivil'],
                 "dataNascimento" => null,
             ];
+
 
             // Verifica se exite esposa
             if($cliente->Id_esposa == 0 || $cliente->Id_esposa == null || $cliente->Id_esposa == "")
@@ -361,6 +383,26 @@ class Cliente extends CI_Controller
                 "estadoCivil" => $_POST['estadoCivil'],
                 "dataNascimento" => $dtCli,
             ];
+
+
+            // -- Verifica se é empresa
+            if(isset($post["cnpj"]) == true)
+            {
+                // Verifica se o cnpj é valido
+                if($this->validarCNPJ($post["cnpj"]) == true)
+                {
+                    $alteraCliente["cnpj"] = preg_replace('/[^0-9]/', '', (string) $post["cnpj"]);
+                    $alteraCliente["ie"] = $post["ie"];
+                    $alteraCliente["nomeEmpresa"] = $post["nomeEmpresa"];
+                }
+                else
+                {
+                    // Envia a mensagem de erro e mata o código
+                    $this->retornoAPI([
+                        "mensagem" => "CNPJ informado é inválido."
+                    ]);
+                }
+            }
 
 
             if($cliente->Id_esposa != 0 && $cliente->Id_esposa != null && $cliente->Id_esposa != "")
@@ -811,6 +853,89 @@ class Cliente extends CI_Controller
             return true;
         }
     }// END >> Fun::validaCPF()
+
+
+
+
+
+    /**
+     * Método responsável por verificar se um CNPJ é válido e retornar
+     * True ou False para o mesmo.
+     *
+     * ---------------------------------------------------------------
+     * @author guisehn
+     * @license https://gist.github.com/guisehn/3276302
+     *
+     * @param string|int $cnpj
+     * @return bool
+     */
+    private function validarCNPJ($cnpj)
+    {
+        // remove supostas mascaras
+        $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+
+
+        // Lista de CNPJs inválidos
+        $invalidos = [
+            '00000000000000',
+            '11111111111111',
+            '22222222222222',
+            '33333333333333',
+            '44444444444444',
+            '55555555555555',
+            '66666666666666',
+            '77777777777777',
+            '88888888888888',
+            '99999999999999'
+        ];
+
+
+        // Verifica se o CNPJ está na lista de inválidos
+        if (in_array($cnpj, $invalidos))
+        {
+            return false;
+        }
+
+
+        // Valida tamanho
+        if (strlen($cnpj) != 14)
+        {
+            return false;
+        }
+
+
+        // Verifica se todos os digitos são iguais
+        if (preg_match('/(\d)\1{13}/', $cnpj))
+        {
+            return false;
+        }
+
+
+        // Valida primeiro dígito verificador
+        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
+        {
+            $soma += $cnpj{$i} * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+        }
+
+        $resto = $soma % 11;
+        if ($cnpj{12} != ($resto < 2 ? 0 : 11 - $resto))
+        {
+            return false;
+        }
+
+
+        // Valida segundo dígito verificador
+        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
+        {
+            $soma += $cnpj{$i} * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+        }
+
+        $resto = $soma % 11;
+        return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
+
+    } // End >> Fun::validarCNPJ()
 
 
 } // END >> Class::Cliente

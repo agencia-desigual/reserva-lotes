@@ -200,40 +200,55 @@
 
                             </div>
 
-                            <?php if($_SESSION['usuario']->nivel == 'administrador'): ?>
+                            <?php if($_SESSION['usuario']->nivel == 'administrador' && $negociacoes[0]->status == "vendido"): ?>
 
                                 <h2>Boletos</h2>
                                 <br>
                                 <div class="row">
 
                                     <!-- STATUS -->
-                                    <div class="col-md-4">
-                                            <?php if ($negociacoes[0]->numEntrada == 1): ?>
-                                                <a href="#">Boleto entrada 1</a>
-                                            <?php elseif ($negociacoes[0]->numEntrada == 2): ?>
-                                                <a href="#">Boleto entrada 1</a><br>
-                                                <a href="#">Boleto entrada 2</a>
-                                            <?php elseif ($negociacoes[0]->numEntrada == 3): ?>
-                                                <a href="#">Boleto entrada 1</a><br>
-                                                <a href="#">Boleto entrada 2</a><br>
-                                                <a href="#">Boleto entrada 3</a>
-                                            <?php endif; ?>
-                                        </div>
+                                    <?php if($negociacoes[0]->valorBalao > 0): ?>
+                                        <div class="col-md-4">
+                                    <?php else: ?>
+                                        <div class="col-md-6">
+                                    <?php endif; ?>
 
-                                    <!-- DATA DE NEGOCIACAO -->
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <a href="#">Boleto parcela</a>
-                                            <p></p>
-                                        </div>
+                                        <h4>Boletos da Entrada</h4>
+
+                                        <?php for($i = 1; $i <= $negociacoes[0]->numEntrada; $i++): ?>
+                                            <a href="<?= BASE_URL; ?>imprimir/boleto/entrada/<?= $negociacoes[0]->Id_negociacao; ?>/<?= $i; ?>" target="_blank">Boleto <?= $i; ?>ª Parcela</a> <br>
+                                        <?php endfor; ?>
                                     </div>
 
-                                    <!-- PARCELAS -->
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <a href="#">Boleto balão</a>
-                                            <p></p>
+                                    <!-- DATA DE NEGOCIACAO -->
+                                    <?php if($negociacoes[0]->valorBalao > 0): ?>
+                                        <div class="col-md-4">
+                                            <h4>Boletos Balão</h4>
+
+                                            <?php $i = 1; ?>
+                                            <?php foreach ($negociacoes[0]->balao as $bal): ?>
+
+                                                <a href="<?= BASE_URL; ?>imprimir/boleto/balao/<?= $bal->Id_balao; ?>" target="_blank">Boleto <?= $i; ?>ª Parcela</a> <br>
+
+                                                <?php $i++; ?>
+                                            <?php endforeach; ?>
+
                                         </div>
+                                    <?php endif; ?>
+
+
+                                    <!-- PARCELAS -->
+                                    <?php if($negociacoes[0]->valorBalao > 0): ?>
+                                       <div class="col-md-4">
+                                    <?php else: ?>
+                                       <div class="col-md-6">
+                                    <?php endif; ?>
+
+                                           <h4>Boletos das Parcela</h4>
+
+                                           <?php for($i = 1; $i <= $negociacoes[0]->numParcela; $i++): ?>
+                                               <a href="<?= BASE_URL; ?>imprimir/boleto/parcela/<?= $negociacoes[0]->Id_negociacao; ?>/<?= $i; ?>" target="_blank">Boleto <?= $i; ?>ª Parcela</a> <br>
+                                           <?php endfor; ?>
                                     </div>
 
                                 </div>

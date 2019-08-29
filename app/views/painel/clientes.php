@@ -87,7 +87,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <div class="row">
+
+                        <div id="divEmpresaTxt" style="display: none;">
+                            <div class="col-md-6">
+                                <p class="h6"><strong>CNPJ</strong></p>
+                                <p class="h3 font-weight-normal" id="txt_cnpj"></p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p class="h6"><strong>IE</strong></p>
+                                <p class="h3 font-weight-normal" id="txt_ie"></p>
+                            </div>
+
+                            <div class="col-md-12">
+                                <p class="h6"><strong>NOME EMPRESA</strong></p>
+                                <p class="h3 font-weight-normal" id="txt_nomeEmpresa"></p>
+                            </div>
+                        </div>
+
+
                         <div class="col-md-12">
                             <p class="h6"><strong>NOME</strong></p>
                             <p class="h3 font-weight-normal" id="txt_nome"></p>
@@ -297,6 +317,8 @@
         </div>
     </div>
 
+
+
     <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditar" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -310,10 +332,39 @@
 
                     <form id="formAlterarCliente">
 
+                        <div id="divEmpresa" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>CNPJ</label>
+                                        <input type="text" name="cnpj" id="input_cnpj" class="maskCNPJ form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Inscrição Estadual</label>
+                                        <input type="text" name="ie" id="input_ie" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nome da Empresa</label>
+                                        <input type="text" name="nomeEmpresa" id="input_nomeEmpresa" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <input id="Id_cliente" name="Id_cliente" type="hidden" value="">
                             <input id="Id_endereco" name="Id_endereco" type="hidden" value="">
                             <input id="Id_esposa" name="Id_esposa" type="hidden" value="">
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>CPF</label>
@@ -620,6 +671,8 @@
         </div>
     </div>
 
+
+
     <div class="modal fade" id="modalAdicionar" tabindex="-1" role="dialog" aria-labelledby="modalAdicionar" aria-hidden="true">
             <div class="modal-dialog modal-md modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -632,6 +685,47 @@
                     <div class="modal-body">
 
                         <form id="formAdicionarCliente">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tipo de Pessoa</label>
+                                        <select class="form-control" onchange="verificaPessoa2(this.value)">
+                                            <option value="fisica" selected>Pessoa Física</option>
+                                            <option value="juridica">Pessoa Jurídica</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="divEmpresaInsert" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>CNPJ</label>
+                                            <input type="text" name="cnpj" id="input_cnpj2" class="maskCNPJ form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Inscrição Estadual</label>
+                                            <input type="text" name="ie" id="input_ie2" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Nome da Empresa</label>
+                                            <input type="text" name="nomeEmpresa" id="input_nomeEmpresa2" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -947,8 +1041,27 @@
 
 <script>
 
+
+    function verificaPessoa2(valor)
+    {
+        if(valor === "juridica")
+        {
+            $("#divEmpresaInsert").css("display","block");
+        }
+        else
+        {
+            $("#divEmpresaInsert").css("display","none");
+        }
+
+        Dados.tipoPessoa = valor;
+    }
+
+
+
     function visualizar(id)
     {
+        $("#divEmpresaTxt").css("display","none");
+
         // Busca o cliente
         $.get(BASE_URL + "cliente/get/" + id, {}, (data) => {
 
@@ -975,6 +1088,17 @@
                 $("#link_cpf").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_cpf);
                 $("#link_rg").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_rg);
                 $("#link_residencia").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_residencia);
+
+
+                // Verifica se possui empresa
+                if(cliente.cnpj != null && cliente.cnpj != "" && cliente.cnpj != undefined)
+                {
+                    $("#divEmpresaTxt").css("display","block");
+                    $("#txt_cnpj").html(cliente.cnpj);
+                    $("#txt_ie").html(cliente.ie);
+                    $("#txt_nomeEmpresa").html(cliente.nomeEmpresa);
+                }
+
 
                 // Verifica se é casado
                 if(esposa != null && esposa != "" && esposa != undefined)
@@ -1035,8 +1159,12 @@
 
     } // END >> Fun::visualizar()
 
+
+
     function editar(id)
     {
+        $("#divEmpresa").css("display","none");
+
         // Busca o cliente
         $.get(BASE_URL + "cliente/get/" + id, {}, (data) => {
 
@@ -1066,6 +1194,17 @@
                 $("#link_cpf_editar").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_cpf);
                 $("#link_rg_editar").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_rg);
                 $("#link_residencia_editar").attr("href",BASE_URL + "arquivos/storange/documentos/" + cliente.Id_cliente + "/" + cliente.img_residencia);
+
+
+                // Verifica se possui empresa
+                if(cliente.cnpj != null && cliente.cnpj != "" && cliente.cnpj != undefined)
+                {
+                    $("#divEmpresa").css("display","block");
+                    $("#input_cnpj").val(cliente.cnpj);
+                    $("#input_ie").val(cliente.ie);
+                    $("#input_nomeEmpresa").val(cliente.nomeEmpresa);
+                }
+
 
                 // Verifica se é casado
                 if(esposa != null && esposa != "" && esposa != undefined)
@@ -1131,6 +1270,8 @@
         }, "json");
 
     } // END >> Fun::editar()
+
+
 
     $(document).ready(function () {
         $('.dropify').dropify({

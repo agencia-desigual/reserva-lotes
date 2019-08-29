@@ -17,7 +17,8 @@ var Dados = {
     "modal" : "",
     "tipo" : "",
     "ValorBalao" : 0,
-    "ParcelaBalao" : 0
+    "ParcelaBalao" : 0,
+    "tipoPessoa" : "fisica"
 }
 
 
@@ -663,6 +664,21 @@ function verificaBalao(valor)
 }
 
 
+function verificaPessoa(valor)
+{
+    if(valor === "juridica")
+    {
+        $("#divEmpresa").css("display","block");
+    }
+    else
+    {
+        $("#divEmpresa").css("display","none");
+    }
+
+    Dados.tipoPessoa = valor;
+}
+
+
 
 /**
  *  ---------------------------------
@@ -879,15 +895,15 @@ $("#formAdicionarCliente").on("submit", function () {
     var renda = form.get("renda");
     renda = renda.replace(".","");
 
-    form.get(renda);
+    form.set("renda", renda);
 
-    if(form.get("esp_renda") !== null && form.get(renda) !== undefined) 
-    {
+    if(form.get("esp_renda") !== null && form.get(renda) !== undefined) {
         var rendaEsp = form.get("esp_renda");
-        rendaEsp = rendaEsp.replace(".","");
+        rendaEsp = rendaEsp.replace(".", "");
 
-        form.get(rendaEsp);
+        form.set("esp_renda", rendaEsp);
     }
+
 
     $.ajax({
         url: BASE_URL + "cliente/insert",
@@ -952,14 +968,14 @@ $("#formAlterarCliente").on("submit", function () {
     var renda = form.get("renda");
     renda = renda.replace(".","");
 
-    form.get(renda);
+    form.set("renda", renda);
 
     if(form.get("esp_renda") !== null && form.get(renda) !== undefined) 
     {
         var rendaEsp = form.get("esp_renda");
         rendaEsp = rendaEsp.replace(".","");
 
-        form.get(rendaEsp);
+        form.set("esp_renda", rendaEsp);
     }
 
 

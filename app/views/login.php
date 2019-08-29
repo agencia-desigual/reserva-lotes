@@ -135,7 +135,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>CNJP*</label>
+                                    <label>CNPJ*</label>
                                     <input required name="cnpj" type="text" class="form-control form-control-alternative maskCNPJ">
                                 </div>
                             </div>

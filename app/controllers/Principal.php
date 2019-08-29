@@ -457,6 +457,8 @@ class Principal extends CI_controller
      */
     public function detalhesNegociacoes($param = null)
     {
+        $objBalao = new \Model\Balao();
+
         // Variaveis
         $negociacoes = null;
         $dados = null;
@@ -478,6 +480,7 @@ class Principal extends CI_controller
             $corretor = null;
             $cliente = null;
             $lote = null;
+            $balao = null;
 
             // Busca o lote
             $lote = $this->ObjModelLote->get(["Id_lote" => $neg->Id_lote])->fetch(\PDO::FETCH_OBJ);
@@ -489,6 +492,12 @@ class Principal extends CI_controller
                 $cliente = $this->ObjModelCliente->get(["Id_cliente" => $neg->Id_cliente])->fetch(\PDO::FETCH_OBJ);
             }
 
+            // Verifica se possui balao
+            if($neg->valorBalao > 0)
+            {
+                $balao = $objBalao->get(["Id_negociacao"])->fetchAll(\PDO::FETCH_OBJ);
+            }
+
             // Busca o corretor
             $corretor = $this->ObjModelUsuario->get(["Id_usuario" => $neg->Id_usuario])->fetch(\PDO::FETCH_OBJ);
 
@@ -496,6 +505,7 @@ class Principal extends CI_controller
             $neg->lote =  $lote;
             $neg->corretor = $corretor;
             $neg->cliente = $cliente;
+            $neg->balao = $balao;
         }
 
         // Array de exibição

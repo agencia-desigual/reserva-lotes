@@ -168,6 +168,46 @@
                         <form id="form_etapa2_2">
 
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tipo de Pessoa</label>
+                                        <select class="form-control" onchange="verificaPessoa(this.value)">
+                                            <option value="fisica" selected>Pessoa Física</option>
+                                            <option value="juridica">Pessoa Jurídica</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="divEmpresa" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>CNPJ</label>
+                                            <input type="text" name="cnpj" id="input_cnpj" class="maskCNPJ form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Inscrição Estadual</label>
+                                            <input type="text" name="ie" id="input_ie" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Nome da Empresa</label>
+                                            <input type="text" name="nomeEmpresa" id="input_nomeEmpresa" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>CPF</label>
@@ -601,6 +641,9 @@
             "numParcela": form.get("parcelas"),
             "vencimentoParcela": form.get("vencimentoParcela"),
             "status": "reservado",
+            "numEntrada": 1,
+            "valorBalao": 0,
+            "juros": 1,
             "Id_valorFinanciamento": 0
         }
 

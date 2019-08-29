@@ -13,6 +13,7 @@
 <script src="<?= BASE_URL; ?>arquivos/plugins/datatables/js/js.js"></script>
 <script src="<?= BASE_URL; ?>arquivos/plugins/mascara/mascara.js"></script>
 <script src="<?= BASE_URL; ?>arquivos/plugins/selectize/js/standalone/selectize.js"></script>
+<script src="<?= BASE_STORANGE; ?>plugins/dropify/js/dropify.js" defer></script><!-- Dropzone JS Plugin -->
 
 <!-- Configurações -->
 <script src="<?= BASE_URL; ?>arquivos/assets/js/custom/global.js"></script>
