@@ -215,6 +215,7 @@ function abreModal(id)
 
                         if(user.nivel === "administrador")
                         {
+                            $("#vizApenasAdm").css("display","block");
                             $("#divDownload").css("display","block");
                             $("#link_contrato_v").attr("href",BASE_URL + "imprimir/contrato/" + Dados.Id_negociacao);
                             $("#link_entrada_v").attr("href",BASE_URL + "imprimir/boleto/entrada/" + Dados.Id_negociacao);
@@ -224,6 +225,7 @@ function abreModal(id)
                         {
                             if(user.Id_usuario === lote.negociacao.Id_usuario )
                             {
+                                $("#vizApenasAdm").css("display","block");
                                 $("#divDownload").css("display","block");
                                 $("#link_contrato_v").attr("href",BASE_URL + "imprimir/contrato/" + Dados.Id_negociacao);
                                 
@@ -233,6 +235,7 @@ function abreModal(id)
                             else 
                             {
                                 $("#divDownload").css("display","none");
+                                $("#vizApenasAdm").css("display","none");
                             }
                         }
                     }
@@ -819,6 +822,13 @@ $("#form_etapa2").on("submit", function () {
     if(Dados.cliente != "")
     {
         form.set("Id_cliente", Dados.cliente.Id_cliente);
+    }
+
+    if(Dados.tipoPessoa == "fisica")
+    {
+        form.delete("cnpj");
+        form.delete("ie");
+        form.delete("nomeEmpresa");
     }
 
 

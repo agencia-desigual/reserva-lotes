@@ -699,16 +699,17 @@
                     </div>
                 </div>
 
+
                 <!-- Vendedor -->
                 <div class="col-2">
                     <div class="p-l-20">
-                        <label>Corretor Responsável</label>
-                        <p id="txt_corretor_mv">Jaison Mendes</p>
+                        <label>Data da Negociação</label>
+                        <p id="txt_data_mv">10/10/2010 ás 10:15</p>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="vizApenasAdm" style="display: none;">
                 <!-- Valor do Lote -->
                 <div class="col-2">
                     <div class="p-r-20">
@@ -717,11 +718,12 @@
                     </div>
                 </div>
 
+
                 <!-- Vendedor -->
                 <div class="col-2">
                     <div class="p-l-20">
-                        <label>Data da Negociação</label>
-                        <p id="txt_data_mv">10/10/2010 ás 10:15</p>
+                        <label>Corretor Responsável</label>
+                        <p id="txt_corretor_mv">Jaison Mendes</p>
                     </div>
                 </div>
             </div>

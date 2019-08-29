@@ -719,22 +719,31 @@ class Principal extends CI_controller
         $cep = $_POST["cep"];
         $cep = preg_replace("/[^0-9]/","", $cep);
 
-        $json_file = file_get_contents("https://viacep.com.br/ws/{$cep}/json/");
-        $resultado = json_decode($json_file, true);
-
-        if(isset($resultado['erro']))
+        // Verifica se é diferente de nulo
+        if($cep != null && $cep != "")
         {
-            $dados = array("erro" => true);
+            $json_file = file_get_contents("https://viacep.com.br/ws/{$cep}/json/");
+            $resultado = json_decode($json_file, true);
+
+            if(isset($resultado['erro']))
+            {
+                $dados = array("erro" => true);
+            }
+            else
+            {
+                $dados = array(
+                    "logradouro" => $resultado['logradouro'],
+                    "bairro" => $resultado['bairro'],
+                    "cidade" => $resultado['localidade'],
+                    "estado" => $resultado['uf'],
+                    "erro" => false
+                );
+            }
         }
         else
         {
-            $dados = array(
-                "logradouro" => $resultado['logradouro'],
-                "bairro" => $resultado['bairro'],
-                "cidade" => $resultado['localidade'],
-                "estado" => $resultado['uf'],
-                "erro" => false
-            );
+            // Informa o erro
+            $dados = array("erro" => true);
         }
 
         // Manda o retorno
