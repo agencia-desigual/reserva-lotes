@@ -37,77 +37,94 @@ class Corretor extends CI_Controller
     {
         if(isset($_POST))
         {
-            //CAMPOS NÃO OBRIGATORIO
-            if($_POST['status'] == "ativo"){ $status = 1; } else { $status = 0;}
+            // Se o email já está cadastrado
+            $verificaEmail = $this->ObjModelUsuario->get(["email" => $_POST['email']])->rowCount();
 
-
-            $salvaEndereco = [
-                "cep" => $_POST['cep'],
-                "cidade" => $_POST['cidade'],
-                "estado" => $_POST['estado'],
-                "bairro" => $_POST['bairro'],
-                "logradouro" => $_POST['logradouro'],
-                "numero" => $_POST['numero'],
-                "complemento" => null
-            ];
-
-
-            if(isset($_POST['complemento']) && $_POST['complemento'] != '') { $salvaEndereco['complemento'] = $_POST['complemento']; }
-
-            $IdEndereco = $this->ObjModelEndereco->insert($salvaEndereco);
-
-
-            if($IdEndereco != null || $IdEndereco != false)
+            // Faz a verificação
+            if($verificaEmail == 0)
             {
-                $salvaCorretor = [
-                    "Id_endereco" => $IdEndereco,
-                    "cnpj" => $_POST['cnpj'],
-                    "empresa" => $_POST['empresa'],
-                    "telefone" => null,
-                    "celular" => null,
-                    "creci" => $_POST['creci'],
+                //CAMPOS NÃO OBRIGATORIO
+                if($_POST['status'] == "ativo"){ $status = 1; } else { $status = 0;}
+
+                // Array de salvamento do endereço
+                $salvaEndereco = [
+                    "cep" => $_POST['cep'],
+                    "cidade" => $_POST['cidade'],
+                    "estado" => $_POST['estado'],
+                    "bairro" => $_POST['bairro'],
+                    "logradouro" => $_POST['logradouro'],
+                    "numero" => $_POST['numero'],
+                    "complemento" => null
                 ];
 
-                if(isset($_POST['telefone']) && $_POST['telefone'] != ""){ $salvaCorretor['telefone'] = $_POST['telefone']; }
-                if(isset($_POST['celular']) && $_POST['celular'] != ""){ $salvaCorretor['celular'] = $_POST['celular']; }
+                // Verifica se possui complemento
+                if(isset($_POST['complemento']) && $_POST['complemento'] != '') { $salvaEndereco['complemento'] = $_POST['complemento']; }
 
-                $IdCorretor = $this->ObjModelCorretor->insert($salvaCorretor);
+                // Adiciona o endereço
+                $IdEndereco = $this->ObjModelEndereco->insert($salvaEndereco);
 
-                if($IdCorretor != null || $IdEndereco != false){
-
-                    $salvaUsuario = [
-                        "Id_corretor" => $IdCorretor,
-                        "nome" => $_POST['nome'],
-                        "email" => $_POST['email'],
-                        "senha" => md5($_POST['senha']),
-                        "status" => $status,
-                        "nivel" => $_POST['nivel'],
+                // Verifica se cadastrou o endereço
+                if($IdEndereco != null || $IdEndereco != false)
+                {
+                    // Array de inserçao do corretor
+                    $salvaCorretor = [
+                        "Id_endereco" => $IdEndereco,
+                        "cnpj" => $_POST['cnpj'],
+                        "empresa" => $_POST['empresa'],
+                        "telefone" => null,
+                        "celular" => null,
+                        "creci" => $_POST['creci'],
                     ];
 
-                    if ($this->ObjModelUsuario->insert($salvaUsuario)){
-                        $dados = [
-                            'tipo' => true,
-                            'mensagem' => 'Corretor cadastrado com sucesso!'
+                    // Verifica se
+                    if(isset($_POST['telefone']) && $_POST['telefone'] != ""){ $salvaCorretor['telefone'] = $_POST['telefone']; }
+                    if(isset($_POST['celular']) && $_POST['celular'] != ""){ $salvaCorretor['celular'] = $_POST['celular']; }
+
+                    $IdCorretor = $this->ObjModelCorretor->insert($salvaCorretor);
+
+                    if($IdCorretor != null || $IdEndereco != false){
+
+                        $salvaUsuario = [
+                            "Id_corretor" => $IdCorretor,
+                            "nome" => $_POST['nome'],
+                            "email" => $_POST['email'],
+                            "senha" => md5($_POST['senha']),
+                            "status" => $status,
+                            "nivel" => $_POST['nivel'],
                         ];
+
+                        if ($this->ObjModelUsuario->insert($salvaUsuario)){
+                            $dados = [
+                                'tipo' => true,
+                                'mensagem' => 'Corretor cadastrado com sucesso!'
+                            ];
+                        }else{
+                            $dados = [
+                                'tipo' => false,
+                                'mensagem' => 'Erro, ao cadastrar usuário'
+                            ];
+                        }
+
                     }else{
                         $dados = [
                             'tipo' => false,
-                            'mensagem' => 'Erro, ao cadastrar usuário'
+                            'mensagem' => 'Erro, ao salvar corretor'
                         ];
                     }
+
 
                 }else{
                     $dados = [
                         'tipo' => false,
-                        'mensagem' => 'Erro, ao salvar corretor'
+                        'mensagem' => 'Erro, ao salvar endereço'
                     ];
                 }
-
-
-            }else{
+            }
+            else
+            {
                 $dados = [
                     'tipo' => false,
-                    'mensagem' => 'Erro, ao salvar endereço'
+                    'mensagem' => 'E-mail informado já esta cadastrado.'
                 ];
             }
 
