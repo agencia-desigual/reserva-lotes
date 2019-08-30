@@ -43,6 +43,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
+                                <th scope="col">Empresa</th>
                                 <th scope="col">CNPJ</th>
                                 <th scope="col">Nivel</th>
                                 <th scope="col">Status</th>
@@ -54,7 +55,8 @@
                                 <tr>
                                     <td><?= $corretor->Id_corretor; ?></td>
                                     <td><?= $corretor->nome ?></td>
-                                    <td><?= $corretor->cnpj ?></td>
+                                    <td><?= $corretor->empresa ?></td>
+                                    <td><?= $corretor->cnpj; ?></td>
                                     <td><?= ($corretor->nivel == "user") ? "Corretor" : "Administrador"; ?></td>
                                     <td><span class='badge badge-pill<?= ($corretor->status == true) ? " badge-success'>Ativo" : " badge-warning'>Inativo"; ?></span></td>
                                     <td class="text-right">

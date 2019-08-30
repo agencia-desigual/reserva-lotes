@@ -486,7 +486,7 @@ class Lote extends CI_Controller
         if(isset($bloco) == true && $bloco != null)
         {
             // Busca os lotes desse bloco
-            $lotes = $this->ObjModelLote->get(["bloco" => $bloco])->fetchAll(\PDO::FETCH_OBJ);
+            $lotes = $this->ObjModelLote->get(["bloco" => $bloco, "status" => "livre"])->fetchAll(\PDO::FETCH_OBJ);
 
             // retorna
             $this->retornoAPI([
