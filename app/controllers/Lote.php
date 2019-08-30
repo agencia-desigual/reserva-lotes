@@ -200,61 +200,64 @@ class Lote extends CI_Controller
         // Post
         $post = $_POST;
 
-
-        // busca as negociações ativas do usuario
-        $negAtiva = $this->ObjModelNegociacao->get(["Id_usuario" => $post["Id_corretor"], "status" => "reservado"]);
-
-        // Verifica se extourou o numero de reservas
-        if($negAtiva->rowCount() >= 2)
+        // Verifica se o corretor é usuario normal
+        if($usuario->nivel == "user")
         {
-            $this->retornoAPI(["mensagem" => "É permitido apenas 2 reservas por corretor. Você já possui o número máximo de lotes reservados."]);
+            // busca as negociações ativas do usuario
+            $negAtiva = $this->ObjModelNegociacao->get(["Id_usuario" => $post["Id_corretor"], "status" => "reservado"]);
+
+            // Verifica se extourou o numero de reservas
+            if($negAtiva->rowCount() >= 2)
+            {
+                $this->retornoAPI(["mensagem" => "É permitido apenas 2 reservas por corretor. Você já possui o número máximo de lotes reservados."]);
+            }
+        }
+
+
+        // Salva
+        $salva = [
+            "Id_usuario" => $post["Id_corretor"],
+            "Id_lote" => $post["Id_lote"],
+            "Id_valorFinanciamento" => ($post["Id_valorFinanciamento"] == 0) ? null : $post["Id_valorFinanciamento"],
+            "valorEntrada" => $post["valorEntrada"],
+            "numParcela" => $post["numParcela"],
+            "numEntrada" => $post["numEntrada"],
+            "vencimentoParcela" => $post["vencimentoParcela"],
+            "vencimentoEntrada" => $post["vencimentoEntrada"],
+            "status" => $post["status"],
+            "valorBalao" => number_format($post["valorBalao"], 2, ".", ""),
+            "juros" => $post["juros"]
+        ];
+
+        // salva
+        $idSalva = $this->ObjModelNegociacao->insert($salva);
+
+        // Verifica se deu certo
+        if($idSalva != null && $idSalva != false)
+        {
+            // Altera o banco
+            $this->ObjModelLote->update(["status" => $post["status"]],["Id_lote" => $post["Id_lote"]]);
+
+            // Dispara o Push
+            $push = [
+                "Id_lote" => $post["Id_lote"],
+                "status" => $post["status"]
+            ];
+
+            $this->disparaPush($push);
+
+            // Avisa que deu bom
+            $this->retornoAPI([
+                "tipo" => true,
+                "mensagem" => "Reservado com sucesso",
+                "objeto" => $this->ObjModelNegociacao->get(["Id_negociacao" => $idSalva])->fetch(\PDO::FETCH_OBJ)
+            ]);
         }
         else
         {
-            // Salva
-            $salva = [
-                "Id_usuario" => $post["Id_corretor"],
-                "Id_lote" => $post["Id_lote"],
-                "Id_valorFinanciamento" => ($post["Id_valorFinanciamento"] == 0) ? null : $post["Id_valorFinanciamento"],
-                "valorEntrada" => $post["valorEntrada"],
-                "numParcela" => $post["numParcela"],
-                "numEntrada" => $post["numEntrada"],
-                "vencimentoParcela" => $post["vencimentoParcela"],
-                "vencimentoEntrada" => $post["vencimentoEntrada"],
-                "status" => $post["status"],
-                "valorBalao" => number_format($post["valorBalao"], 2, ".", ""),
-                "juros" => $post["juros"]
-            ];
-
-            // salva
-            $idSalva = $this->ObjModelNegociacao->insert($salva);
-
-            // Verifica se deu certo
-            if($idSalva != null && $idSalva != false)
-            {
-                // Altera o banco
-                $this->ObjModelLote->update(["status" => $post["status"]],["Id_lote" => $post["Id_lote"]]);
-
-                // Dispara o Push
-                $push = [
-                    "Id_lote" => $post["Id_lote"],
-                    "status" => $post["status"]
-                ];
-
-                $this->disparaPush($push);
-
-                // Avisa que deu bom
-                $this->retornoAPI([
-                    "tipo" => true,
-                    "mensagem" => "Reservado com sucesso",
-                    "objeto" => $this->ObjModelNegociacao->get(["Id_negociacao" => $idSalva])->fetch(\PDO::FETCH_OBJ)
-                ]);
-            }
-            else
-            {
-                $this->retornoAPI(["mensagem" => "Erro ao inserir negociação"]);
-            }
+            $this->retornoAPI(["mensagem" => "Erro ao inserir negociação"]);
         }
+
 
     } // END >> Fun::insertNegociacao()
 

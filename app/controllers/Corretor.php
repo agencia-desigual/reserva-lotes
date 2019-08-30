@@ -185,7 +185,7 @@ class Corretor extends CI_Controller
         if(isset($_POST)){
 
             //CAMPOS NÃO OBRIGATORIO
-            if($_POST['status'] == "ativo"){ $status = 1; } else { $status = 0; }
+            if($_POST['status'] == "ativo" || $_POST['status'] == 1){ $status = 1; } else { $status = 0; }
 
             $updateEndereco = [
                 "cep" => $_POST['cep'],
