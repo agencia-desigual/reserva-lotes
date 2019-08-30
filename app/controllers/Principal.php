@@ -469,53 +469,61 @@ class Principal extends CI_controller
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
-
-        // Busca as negociacoes
-        $negociacoes = $this->ObjModelNegociacao->get(['Id_negociacao' => $param],"Id_negociacao DESC")->fetchAll(\PDO::FETCH_OBJ);
-
-        // Busca os dados principais para exibir as negociações
-        foreach ($negociacoes as $neg)
+        // Verifica se é administrador
+        if($usuario->nivel == "administrador")
         {
-            // Limpa os dados
-            $corretor = null;
-            $cliente = null;
-            $lote = null;
-            $balao = null;
+            // Busca as negociacoes
+            $negociacoes = $this->ObjModelNegociacao->get(['Id_negociacao' => $param],"Id_negociacao DESC")->fetchAll(\PDO::FETCH_OBJ);
 
-            // Busca o lote
-            $lote = $this->ObjModelLote->get(["Id_lote" => $neg->Id_lote])->fetch(\PDO::FETCH_OBJ);
-
-            // Verifica se possui cliente
-            if($neg->Id_cliente != null && $neg->Id_cliente != 0 && $neg->Id_cliente != "")
+            // Busca os dados principais para exibir as negociações
+            foreach ($negociacoes as $neg)
             {
-                // Busca o cliente
-                $cliente = $this->ObjModelCliente->get(["Id_cliente" => $neg->Id_cliente])->fetch(\PDO::FETCH_OBJ);
+                // Limpa os dados
+                $corretor = null;
+                $cliente = null;
+                $lote = null;
+                $balao = null;
+
+                // Busca o lote
+                $lote = $this->ObjModelLote->get(["Id_lote" => $neg->Id_lote])->fetch(\PDO::FETCH_OBJ);
+
+                // Verifica se possui cliente
+                if($neg->Id_cliente != null && $neg->Id_cliente != 0 && $neg->Id_cliente != "")
+                {
+                    // Busca o cliente
+                    $cliente = $this->ObjModelCliente->get(["Id_cliente" => $neg->Id_cliente])->fetch(\PDO::FETCH_OBJ);
+                }
+
+                // Verifica se possui balao
+                if($neg->valorBalao > 0)
+                {
+                    $balao = $objBalao->get(["Id_negociacao"])->fetchAll(\PDO::FETCH_OBJ);
+                }
+
+                // Busca o corretor
+                $corretor = $this->ObjModelUsuario->get(["Id_usuario" => $neg->Id_usuario])->fetch(\PDO::FETCH_OBJ);
+
+                // Add os objetos
+                $neg->lote =  $lote;
+                $neg->corretor = $corretor;
+                $neg->cliente = $cliente;
+                $neg->balao = $balao;
             }
 
-            // Verifica se possui balao
-            if($neg->valorBalao > 0)
-            {
-                $balao = $objBalao->get(["Id_negociacao"])->fetchAll(\PDO::FETCH_OBJ);
-            }
+            // Array de exibição
+            $dados = [
+                "negociacoes" => $negociacoes,
+                "usuario" => $usuario
+            ];
 
-            // Busca o corretor
-            $corretor = $this->ObjModelUsuario->get(["Id_usuario" => $neg->Id_usuario])->fetch(\PDO::FETCH_OBJ);
-
-            // Add os objetos
-            $neg->lote =  $lote;
-            $neg->corretor = $corretor;
-            $neg->cliente = $cliente;
-            $neg->balao = $balao;
+            // Chama a view
+            $this->view("painel/negociacoes_detalhes",$dados);
         }
-
-        // Array de exibição
-        $dados = [
-            "negociacoes" => $negociacoes,
-            "usuario" => $usuario
-        ];
-
-        // Chama a view
-        $this->view("painel/negociacoes_detalhes",$dados);
+        else
+        {
+            // Avisa que deu erro
+            $this->erro404();
+        }
 
     } // END >> Fun::negociacoes()
 
@@ -535,30 +543,39 @@ class Principal extends CI_controller
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
-        // Busca os corretores
-        $buscaCorretor = $this->ObjModelCorretor->get()->fetchAll(\PDO::FETCH_OBJ);
-
-        // Percorre os corretoes
-        foreach ($buscaCorretor as $cor)
+        // Verifica se é adm
+        if($usuario->nivel == "administrador")
         {
-            // Busca o usuário vinculado
-            $user = $this->ObjModelUsuario->get(["Id_corretor" => $cor->Id_corretor])->fetch(\PDO::FETCH_OBJ);
+            // Busca os corretores
+            $buscaCorretor = $this->ObjModelCorretor->get()->fetchAll(\PDO::FETCH_OBJ);
 
-            // Add o nome, email, nivel e status
-            $cor->Id_usuario = $user->Id_usuario;
-            $cor->nome = $user->nome;
-            $cor->email = $user->email;
-            $cor->nivel = $user->nivel;
-            $cor->status = $user->status;
+            // Percorre os corretoes
+            foreach ($buscaCorretor as $cor)
+            {
+                // Busca o usuário vinculado
+                $user = $this->ObjModelUsuario->get(["Id_corretor" => $cor->Id_corretor])->fetch(\PDO::FETCH_OBJ);
+
+                // Add o nome, email, nivel e status
+                $cor->Id_usuario = $user->Id_usuario;
+                $cor->nome = $user->nome;
+                $cor->email = $user->email;
+                $cor->nivel = $user->nivel;
+                $cor->status = $user->status;
+            }
+
+            $dados = [
+                "corretores" => $buscaCorretor,
+                "usuario" => $usuario
+            ];
+
+            // Chama a view
+            $this->view("painel/corretores",$dados);
         }
-
-        $dados = [
-            "corretores" => $buscaCorretor,
-            "usuario" => $usuario
-        ];
-
-        // Chama a view
-        $this->view("painel/corretores",$dados);
+        else
+        {
+            // Avisa que deu erro
+            $this->erro404();
+        }
 
     } // END >> Fun::corretores()
 
@@ -578,16 +595,25 @@ class Principal extends CI_controller
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
-        // Busca os clientes
-        $buscaCliente = $this->ObjModelCliente->get()->fetchAll(\PDO::FETCH_OBJ);
+        // Verifica se é administrador
+        if($usuario->nivel == "administrador")
+        {
+            // Busca os clientes
+            $buscaCliente = $this->ObjModelCliente->get()->fetchAll(\PDO::FETCH_OBJ);
 
-        $dados = [
-            "clientes" => $buscaCliente,
-            "usuario" => $usuario
-        ];
+            $dados = [
+                "clientes" => $buscaCliente,
+                "usuario" => $usuario
+            ];
 
-        // CHama a view
-        $this->view("painel/clientes",$dados);
+            // CHama a view
+            $this->view("painel/clientes",$dados);
+        }
+        else
+        {
+            // Avisa que deu erro
+            $this->erro404();
+        }
 
     } // END >> Fun::clientes()
 
@@ -606,6 +632,7 @@ class Principal extends CI_controller
 
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
+
 
         // Busca os lotes
         $buscaLotes = $this->ObjModelLote->get()->fetchAll(\PDO::FETCH_OBJ);
@@ -635,16 +662,26 @@ class Principal extends CI_controller
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
-        // Busca os cadastros
-        $buscaCadastro = $this->ObjModelCadastro->get()->fetchAll(\PDO::FETCH_OBJ);
+        // Verifica se é adm
+        if($usuario->nivel == "administrador")
+        {
+            // Busca os cadastros
+            $buscaCadastro = $this->ObjModelCadastro->get()->fetchAll(\PDO::FETCH_OBJ);
 
-        $dados = [
-            "cadastros" => $buscaCadastro,
-            "usuario" => $usuario
-        ];
+            $dados = [
+                "cadastros" => $buscaCadastro,
+                "usuario" => $usuario
+            ];
 
-        // Chama a view
-        $this->view("painel/cad_site",$dados);
+            // Chama a view
+            $this->view("painel/cad_site",$dados);
+        }
+        else
+        {
+            // Avisa que deu erro
+            $this->erro404();
+        }
+
 
     } // END >> Fun::cadSite()
 
