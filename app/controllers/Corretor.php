@@ -144,26 +144,32 @@ class Corretor extends CI_Controller
 
     public function Editar($IdCorretor)
     {
-
         // Seguranca
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
-        $buscaCorretor = $this->ObjModelCorretor->get(["Id_corretor" => $IdCorretor])->fetchAll(\PDO::FETCH_OBJ);
-        $buscaUsuario = $this->ObjModelUsuario->get(["Id_corretor" => $IdCorretor])->fetchAll(\PDO::FETCH_OBJ);
-        $buscaEndereco = $this->ObjModelEndereco->get(["Id_endereco" => $buscaCorretor[0]->Id_endereco])->fetchAll(\PDO::FETCH_OBJ);
+        // Verifica se é adm
+        if($usuario->nivel == "administrador" || $usuario->Id_corretor == $IdCorretor)
+        {
+            $buscaCorretor = $this->ObjModelCorretor->get(["Id_corretor" => $IdCorretor])->fetch(\PDO::FETCH_OBJ);
+            $buscaUsuario = $this->ObjModelUsuario->get(["Id_corretor" => $IdCorretor])->fetch(\PDO::FETCH_OBJ);
+            $buscaEndereco = $this->ObjModelEndereco->get(["Id_endereco" => $buscaCorretor->Id_endereco])->fetch(\PDO::FETCH_OBJ);
 
 
-        if($this->ObjModelCorretor->get(["Id_corretor" => $IdCorretor])->rowCount() == 1 ){
+            if($this->ObjModelCorretor->get(["Id_corretor" => $IdCorretor])->rowCount() == 1 )
+            {
+                $lista = [
+                    "corretor" => $buscaCorretor,
+                    "user" => $buscaUsuario,
+                    "endereco" => $buscaEndereco,
+                    "usuario" => $usuario
+                ];
 
-            $lista = [
-                "corretor" => $buscaCorretor,
-                "user" => $buscaUsuario,
-                "endereco" => $buscaEndereco,
-                "usuario" => $usuario
-            ];
-
-            $this->view("painel/corretores_editar",$lista);
-
+                $this->view("painel/corretores_editar",$lista);
+            }
+            else
+            {
+                header("Location: " . BASE_URL);
+            }
         }
         else
         {

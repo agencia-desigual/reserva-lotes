@@ -24,7 +24,7 @@
     <div class="card-header border-0">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="mb-0"><?= ($usuario->Id_usuario == $user[0]->Id_usuario) ? "Meus Dados" : "Informações do usuário"; ?></h3>
+                <h3 class="mb-0"><?= ($usuario->Id_usuario == $user->Id_usuario) ? "Meus Dados" : "Informações do usuário"; ?></h3>
             </div>
         </div>
     </div>
@@ -32,16 +32,16 @@
         <div style="padding: 30px" class="row">
             <div class="col-md-12">
                 <form id="formAlterarCorretor">
-                    <input type="hidden" name="Id_endereco" value="<?= $endereco[0]->Id_endereco ?>">
-                    <input type="hidden" name="Id_corretor" value="<?= $corretor[0]->Id_corretor ?>">
-                    <input type="hidden" name="Id_usuario" value="<?= $user[0]->Id_usuario ?>">
+                    <input type="hidden" name="Id_endereco" value="<?= $endereco->Id_endereco ?>">
+                    <input type="hidden" name="Id_corretor" value="<?= $corretor->Id_corretor ?>">
+                    <input type="hidden" name="Id_usuario" value="<?= $user->Id_usuario ?>">
                     <div class="row">
 
                         <!-- NOME -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Nome*</label>
-                                <input required name="nome" type="text" class="form-control form-control-alternative" value="<?= $user[0]->nome ?>">
+                                <input required name="nome" type="text" class="form-control form-control-alternative" value="<?= $user->nome ?>">
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Email*</label>
-                                <p><?= $user[0]->email ?></p>
+                                <p><?= $user->email ?></p>
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Telefone</label>
-                                <input name="telefone" type="text" class="form-control form-control-alternative maskTel" value="<?= $corretor[0]->telefone ?>">
+                                <input name="telefone" type="text" class="form-control form-control-alternative maskTel" value="<?= $corretor->telefone ?>">
                             </div>
                         </div>
 
@@ -81,7 +81,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Celular</label>
-                                <input name="celular" type="text" class="form-control form-control-alternative maskCel" value="<?= $corretor[0]->celular ?>">
+                                <input name="celular" type="text" class="form-control form-control-alternative maskCel" value="<?= $corretor->celular ?>">
                             </div>
                         </div>
 
@@ -89,7 +89,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>CNPJ</label>
-                                <input name="cnpj" type="text" class="form-control form-control-alternative maskCNPJ" value="<?= $corretor[0]->cnpj ?>" />
+                                <input name="cnpj" type="text" class="form-control form-control-alternative maskCNPJ" value="<?= $corretor->cnpj ?>" />
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Empresa</label>
-                                <input name="empresa" type="text" class="form-control form-control-alternative" value="<?= $corretor[0]->empresa ?>" />
+                                <input name="empresa" type="text" class="form-control form-control-alternative" value="<?= $corretor->empresa ?>" />
                             </div>
                         </div>
 
@@ -105,7 +105,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>CRECI</label>
-                                <input name="creci" type="text" class="form-control form-control-alternative" value="<?= $corretor[0]->creci ?>" />
+                                <input name="creci" type="text" class="form-control form-control-alternative" value="<?= $corretor->creci ?>" />
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>CEP*</label>
-                                <input required name="cep" onblur="BuscaCEP(this.value)" id="input_cep" type="text" class="form-control form-control-alternative maskCEP" value="<?= $endereco[0]->cep ?>" >
+                                <input required name="cep" onblur="BuscaCEP(this.value)" id="input_cep" type="text" class="form-control form-control-alternative maskCEP" value="<?= $endereco->cep ?>" >
                             </div>
                         </div>
 
@@ -121,7 +121,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Estado*</label>
-                                <input required name="estado" id="input_estado" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->estado ?>" >
+                                <input required name="estado" id="input_estado" type="text" class="form-control form-control-alternative" value="<?= $endereco->estado ?>" >
                             </div>
                         </div>
 
@@ -129,7 +129,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Cidade*</label>
-                                <input required name="cidade" id="input_cidade" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->cidade ?>">
+                                <input required name="cidade" id="input_cidade" type="text" class="form-control form-control-alternative" value="<?= $endereco->cidade ?>">
                             </div>
                         </div>
 
@@ -137,7 +137,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Bairro*</label>
-                                <input required name="bairro" id="input_bairro" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->bairro ?>">
+                                <input required name="bairro" id="input_bairro" type="text" class="form-control form-control-alternative" value="<?= $endereco->bairro ?>">
                             </div>
                         </div>
 
@@ -145,7 +145,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Logradouro*</label>
-                                <input required name="logradouro" id="input_logradouro" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->logradouro ?>">
+                                <input required name="logradouro" id="input_logradouro" type="text" class="form-control form-control-alternative" value="<?= $endereco->logradouro ?>">
                             </div>
                         </div>
 
@@ -153,7 +153,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Numero*</label>
-                                <input required name="numero" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->numero ?>" >
+                                <input required name="numero" type="text" class="form-control form-control-alternative" value="<?= $endereco->numero ?>" >
                             </div>
                         </div>
 
@@ -161,7 +161,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Complemento</label>
-                                <input name="complemento" type="text" class="form-control form-control-alternative" value="<?= $endereco[0]->complemento ?>">
+                                <input name="complemento" type="text" class="form-control form-control-alternative" value="<?= $endereco->complemento ?>">
                             </div>
                         </div>
 
@@ -172,8 +172,8 @@
                                     <label for="exampleFormControlSelect1">Status*</label>
                                     <select required name="status" class="form-control">
                                         <option disabled>Selecione</option>
-                                        <option value="ativo" <?= ($user[0]->status == true)  ? 'selected' : '' ?>>Ativo</option>
-                                        <option value="desativo" <?= ($user[0]->status == false)  ? 'selected' : '' ?>>Inativo</option>
+                                        <option value="ativo" <?= ($user->status == true)  ? 'selected' : '' ?>>Ativo</option>
+                                        <option value="desativo" <?= ($user->status == false)  ? 'selected' : '' ?>>Inativo</option>
                                     </select>
                                 </div>
                             </div>
@@ -184,14 +184,14 @@
                                     <label for="exampleFormControlSelect1">Nível*</label>
                                     <select required name="nivel" class="form-control">
                                         <option disabled>Selecione</option>
-                                        <option value="user" <?= ($user[0]->nivel == "user")  ? 'selected' : '' ?>>Corretor</option>
-                                        <option value="administrador" <?= ($user[0]->nivel == "administrador")  ? 'selected' : '' ?>>Administrador</option>
+                                        <option value="user" <?= ($user->nivel == "user")  ? 'selected' : '' ?>>Corretor</option>
+                                        <option value="administrador" <?= ($user->nivel == "administrador")  ? 'selected' : '' ?>>Administrador</option>
                                     </select>
                                 </div>
                             </div>
                         <?php else: ?>
-                            <input type="hidden" name="nivel" value="<?= $user[0]->nivel ?>" />
-                            <input type="hidden" name="status" value="<?= $user[0]->status ?>" />
+                            <input type="hidden" name="nivel" value="<?= $user->nivel ?>" />
+                            <input type="hidden" name="status" value="<?= $user->status ?>" />
                         <?php endif; ?>
 
 

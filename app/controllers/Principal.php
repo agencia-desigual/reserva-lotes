@@ -702,7 +702,7 @@ class Principal extends CI_controller
         $usuario = $this->ObjHelperSeguranca->verificaLogin();
 
         // Chama o método
-        $Corretor->Editar($usuario->Id_usuario);
+        $Corretor->Editar($usuario->Id_corretor);
 
     } // END >> Fun::perfil()
 
